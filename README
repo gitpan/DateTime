@@ -195,22 +195,25 @@ USAGE
         "second", and "nanosecond" parameters. The valid values for these
         parameters are:
 
-        * month 1-12
+        * month An integer from 1-12.
 
-        * day   1-31, and it must be within the valid range of days for the
-                specified month
+        * day   An integer from 1-31, and it must be within the valid range
+                of days for the specified month.
 
-        * hour  0-23
+        * hour  An integer from 0-23.
 
         * minute
-                0-59
+                An integer from 0-59.
 
         * second
-                0-61 (to allow for leap seconds). Values of 60 or 61 are
-                only allowed when they match actual leap seconds.
+                An integer from 0-61 (to allow for leap seconds). Values of
+                60 or 61 are only allowed when they match actual leap
+                seconds.
 
         * nanosecond
-                >= 0
+                An integer >= 0. If this number is greater than 1 billion,
+                it will be normalized into the second value for the DateTime
+                object.
 
     Invalid parameter types (like an array reference) will cause the
     constructor to die.
@@ -536,10 +539,11 @@ USAGE
         days of the year may be placed in the first week of the next year.
 
     * $dt->week_year()
-        Returns the year of the week.
+        Returns the year of the week. See `$dt->week()' for details.
 
     * $dt->week_number()
-        Returns the week of the year, from 1..53.
+        Returns the week of the year, from 1..53. See `$dt->week()' for
+        details.
 
     * $dt->week_of_month()
         The week of the month, from 0..5. The first week of the month is the
@@ -1198,12 +1202,17 @@ USAGE
     operators (+=, -=, etc.) will work properly. Do not expect increment
     (++) or decrement (--) to do anything useful.
 
-    If you attempt to sort DateTime objects with non-DateTime.pm objects or
-    scalars (strings, number, whatever) then an exception will be thrown.
-    Using the string comparison operators, `eq' or `ne', to compare a
-    DateTime.pm always returns false.
+    The string comparison operators, `eq' or `ne', will use the string value
+    to compare with non-DateTime objects.
 
-    The module also overloads stringification to use the `iso8601()' method.
+    DateTime objects do not have a numeric value, using `==' or `<=>' to
+    compare a DateTime object with a non-DateTime object will result in an
+    exception. To safely sort mixed DateTime and non-DateTime objects, use
+    `sort { $a cmp $b } @dates'.
+
+    The module also overloads stringification using the object's formatter,
+    defaulting to `iso8601()' method. See Formatters And Stringification for
+    details.
 
   Formatters And Stringification
     You can optionally specify a "formatter", which is usually a
@@ -1650,7 +1659,7 @@ AUTHOR
     stole all the code from.
 
 COPYRIGHT
-    Copyright (c) 2003-2009 David Rolsky. All rights reserved. This program
+    Copyright (c) 2003-2010 David Rolsky. All rights reserved. This program
     is free software; you can redistribute it and/or modify it under the
     same terms as Perl itself.
 

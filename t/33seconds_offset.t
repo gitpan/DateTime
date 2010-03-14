@@ -1,15 +1,16 @@
-#!/usr/bin/perl -w
-
 use strict;
+use warnings;
 
-use Test::More tests => 6;
+use Test::More;
 
 use DateTime;
 
 {
-    my $dt = DateTime->new( year => 1997, month => 6, day => 30,
-                            hour => 23, minute => 58, second => 59,
-                            time_zone => 'UTC' );
+    my $dt = DateTime->new(
+        year      => 1997, month  => 6,  day    => 30,
+        hour      => 23,   minute => 58, second => 59,
+        time_zone => 'UTC'
+    );
 
     $dt->set_time_zone('+00:00:30');
 
@@ -17,9 +18,11 @@ use DateTime;
 }
 
 {
-    my $dt = DateTime->new( year => 1997, month => 6, day => 30,
-                            hour => 23, minute => 59, second => 29,
-                            time_zone => 'UTC' );
+    my $dt = DateTime->new(
+        year      => 1997, month  => 6,  day    => 30,
+        hour      => 23,   minute => 59, second => 29,
+        time_zone => 'UTC'
+    );
 
     $dt->set_time_zone('+00:00:30');
 
@@ -29,9 +32,11 @@ use DateTime;
 {
     local $TODO = 'offsets with seconds are broken near leap seconds';
 
-    my $dt = DateTime->new( year => 1997, month => 6, day => 30,
-                            hour => 23, minute => 59, second => 30,
-                            time_zone => 'UTC' );
+    my $dt = DateTime->new(
+        year      => 1997, month  => 6,  day    => 30,
+        hour      => 23,   minute => 59, second => 30,
+        time_zone => 'UTC'
+    );
 
     $dt->set_time_zone('+00:00:30');
 
@@ -41,9 +46,11 @@ use DateTime;
 {
     local $TODO = 'offsets with seconds are broken near leap seconds';
 
-    my $dt = DateTime->new( year => 1997, month => 6, day => 30,
-                            hour => 23, minute => 59, second => 31,
-                            time_zone => 'UTC' );
+    my $dt = DateTime->new(
+        year      => 1997, month  => 6,  day    => 30,
+        hour      => 23,   minute => 59, second => 31,
+        time_zone => 'UTC'
+    );
 
     $dt->set_time_zone('+00:00:30');
 
@@ -53,9 +60,11 @@ use DateTime;
 {
     local $TODO = 'offsets with seconds are broken near leap seconds';
 
-    my $dt = DateTime->new( year => 1997, month => 6, day => 30,
-                            hour => 23, minute => 59, second => 60,
-                            time_zone => 'UTC' );
+    my $dt = DateTime->new(
+        year      => 1997, month  => 6,  day    => 30,
+        hour      => 23,   minute => 59, second => 60,
+        time_zone => 'UTC'
+    );
 
     $dt->set_time_zone('+00:00:30');
 
@@ -63,11 +72,15 @@ use DateTime;
 }
 
 {
-    my $dt = DateTime->new( year => 1997, month => 7, day => 1,
-                            hour => 0, minute => 0, second => 0,
-                            time_zone => 'UTC' );
+    my $dt = DateTime->new(
+        year      => 1997, month  => 7, day    => 1,
+        hour      => 0,    minute => 0, second => 0,
+        time_zone => 'UTC'
+    );
 
     $dt->set_time_zone('+00:00:30');
 
     is( $dt->datetime, '1997-07-01T00:00:30', '+00:00:30 leap second T+1' );
 }
+
+done_testing();

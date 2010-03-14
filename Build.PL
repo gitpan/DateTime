@@ -15,7 +15,7 @@ my $builder = Module::Build->new(
     c_source    => 'c',
     requires    => {
         'DateTime::Locale'   => '0.41',
-        'DateTime::TimeZone' => '0.59',
+        'DateTime::TimeZone' => '1.09',
         'Params::Validate'   => '0.76',
         'Scalar::Util'       => '0',
         'Time::Local'        => '1.04',
@@ -23,7 +23,7 @@ my $builder = Module::Build->new(
     build_requires => {
         'Pod::Man'        => '1.14',
         'Test::Exception' => '0',
-        'Test::More'      => '0.34',
+        'Test::More'      => '0.88',
     },
     add_to_cleanup => \@pp,
     create_readme  => 1,

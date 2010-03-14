@@ -6,10 +6,10 @@ build_requires:
   ExtUtils::CBuilder: 0
   Pod::Man: 1.14
   Test::Exception: 0
-  Test::More: 0.34
+  Test::More: 0.88
 configure_requires:
-  Module::Build: 0.35
-generated_by: 'Module::Build version 0.351'
+  Module::Build: 0.36
+generated_by: 'Module::Build version 0.3603'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -18,26 +18,26 @@ name: DateTime
 provides:
   DateTime:
     file: lib/DateTime.pm
-    version: 0.53
+    version: 0.54
   DateTime::Duration:
     file: lib/DateTime/Duration.pm
-    version: 0.53
+    version: 0.54
   DateTime::Helpers:
     file: lib/DateTime/Helpers.pm
-    version: 0.53
+    version: 0.54
   DateTime::Infinite:
     file: lib/DateTime/Infinite.pm
-    version: 0.53
+    version: 0.54
   DateTime::Infinite::Future:
     file: lib/DateTime/Infinite.pm
   DateTime::Infinite::Past:
     file: lib/DateTime/Infinite.pm
   DateTime::LeapSecond:
     file: lib/DateTime/LeapSecond.pm
-    version: 0.53
+    version: 0.54
 requires:
   DateTime::Locale: 0.41
-  DateTime::TimeZone: 0.59
+  DateTime::TimeZone: 1.09
   Params::Validate: 0.76
   Scalar::Util: 0
   Time::Local: 1.04
@@ -46,4 +46,4 @@ resources:
   homepage: http://datetime.perl.org/
   license: http://dev.perl.org/licenses/
   repository: https://perl-date-time.svn.sourceforge.net/svnroot/perl-date-time
-version: 0.53
+version: 0.54

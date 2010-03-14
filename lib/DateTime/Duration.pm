@@ -3,42 +3,46 @@ package DateTime::Duration;
 use strict;
 use warnings;
 
-our $VERSION = '0.53';
+our $VERSION = '0.54';
 
 use Carp ();
 use DateTime;
 use DateTime::Helpers;
 use Params::Validate qw( validate SCALAR );
 
-use overload ( fallback => 1,
-               '+'   => '_add_overload',
-               '-'   => '_subtract_overload',
-               '*'   => '_multiply_overload',
-               '<=>' => '_compare_overload',
-               'cmp' => '_compare_overload',
-             );
+use overload (
+    fallback => 1,
+    '+'      => '_add_overload',
+    '-'      => '_subtract_overload',
+    '*'      => '_multiply_overload',
+    '<=>'    => '_compare_overload',
+    'cmp'    => '_compare_overload',
+);
 
-use constant MAX_NANOSECONDS => 1_000_000_000;  # 1E9 = almost 32 bits
+use constant MAX_NANOSECONDS => 1_000_000_000;    # 1E9 = almost 32 bits
 
 my @all_units = qw( months days minutes seconds nanoseconds );
 
 # XXX - need to reject non-integers but accept infinity, NaN, &
 # 1.56e+18
-sub new
-{
+sub new {
     my $class = shift;
-    my %p = validate( @_,
-                         { years   => { type => SCALAR, default => 0 },
-                           months  => { type => SCALAR, default => 0 },
-                           weeks   => { type => SCALAR, default => 0 },
-                           days    => { type => SCALAR, default => 0 },
-                           hours   => { type => SCALAR, default => 0 },
-                           minutes => { type => SCALAR, default => 0 },
-                           seconds => { type => SCALAR, default => 0 },
-                           nanoseconds => { type => SCALAR, default => 0 },
-                           end_of_month => { type => SCALAR, default => undef,
-                                             regex => qr/^(?:wrap|limit|preserve)$/ },
-                         } );
+    my %p     = validate(
+        @_, {
+            years        => { type => SCALAR, default => 0 },
+            months       => { type => SCALAR, default => 0 },
+            weeks        => { type => SCALAR, default => 0 },
+            days         => { type => SCALAR, default => 0 },
+            hours        => { type => SCALAR, default => 0 },
+            minutes      => { type => SCALAR, default => 0 },
+            seconds      => { type => SCALAR, default => 0 },
+            nanoseconds  => { type => SCALAR, default => 0 },
+            end_of_month => {
+                type  => SCALAR, default => undef,
+                regex => qr/^(?:wrap|limit|preserve)$/
+            },
+        }
+    );
 
     my $self = bless {}, $class;
 
@@ -50,79 +54,79 @@ sub new
 
     $self->{seconds} = $p{seconds};
 
-    if ( $p{nanoseconds} )
-    {
+    if ( $p{nanoseconds} ) {
         $self->{nanoseconds} = $p{nanoseconds};
         $self->_normalize_nanoseconds;
     }
-    else
-    {
+    else {
+
         # shortcut - if they don't need nanoseconds
         $self->{nanoseconds} = 0;
     }
 
-    $self->{end_of_month} =
-        ( defined $p{end_of_month}
-          ? $p{end_of_month}
-          : $self->{months} < 0
-          ? 'preserve'
-          : 'wrap'
-        );
+    $self->{end_of_month} = (
+          defined $p{end_of_month} ? $p{end_of_month}
+        : $self->{months} < 0      ? 'preserve'
+        : 'wrap'
+    );
 
     return $self;
 }
 
 # make the signs of seconds, nanos the same; 0 < abs(nanos) < MAX_NANOS
 # NB this requires nanoseconds != 0 (callers check this already)
-sub _normalize_nanoseconds
-{
+sub _normalize_nanoseconds {
     my $self = shift;
 
-    return if
-        ( $self->{nanoseconds} == DateTime::INFINITY()
-          || $self->{nanoseconds} == DateTime::NEG_INFINITY()
-          || $self->{nanoseconds} eq DateTime::NAN()
-        );
+    return
+        if ( $self->{nanoseconds} == DateTime::INFINITY()
+        || $self->{nanoseconds} == DateTime::NEG_INFINITY()
+        || $self->{nanoseconds} eq DateTime::NAN() );
 
     my $seconds = $self->{seconds} + $self->{nanoseconds} / MAX_NANOSECONDS;
-    $self->{seconds} = int( $seconds );
+    $self->{seconds}     = int($seconds);
     $self->{nanoseconds} = $self->{nanoseconds} % MAX_NANOSECONDS;
     $self->{nanoseconds} -= MAX_NANOSECONDS if $seconds < 0;
 }
 
 sub clone { bless { %{ $_[0] } }, ref $_[0] }
 
-sub years   { abs( $_[0]->in_units( 'years' ) ) }
-sub months  { abs( $_[0]->in_units( 'months', 'years' ) ) }
-sub weeks   { abs( $_[0]->in_units( 'weeks' ) ) }
-sub days    { abs( $_[0]->in_units( 'days', 'weeks' ) ) }
-sub hours   { abs( $_[0]->in_units( 'hours' ) ) }
-sub minutes { abs( $_[0]->in_units( 'minutes', 'hours' ) ) }
-sub seconds { abs( $_[0]->in_units( 'seconds' ) ) }
+sub years       { abs( $_[0]->in_units('years') ) }
+sub months      { abs( $_[0]->in_units( 'months', 'years' ) ) }
+sub weeks       { abs( $_[0]->in_units('weeks') ) }
+sub days        { abs( $_[0]->in_units( 'days', 'weeks' ) ) }
+sub hours       { abs( $_[0]->in_units('hours') ) }
+sub minutes     { abs( $_[0]->in_units( 'minutes', 'hours' ) ) }
+sub seconds     { abs( $_[0]->in_units('seconds') ) }
 sub nanoseconds { abs( $_[0]->in_units( 'nanoseconds', 'seconds' ) ) }
 
-sub is_positive {   $_[0]->_has_positive && ! $_[0]->_has_negative }
-sub is_negative { ! $_[0]->_has_positive &&   $_[0]->_has_negative }
+sub is_positive { $_[0]->_has_positive  && !$_[0]->_has_negative }
+sub is_negative { !$_[0]->_has_positive && $_[0]->_has_negative }
 
-sub _has_positive { ( grep { $_ > 0 } @{ $_[0] }{@all_units} ) ? 1 : 0}
-sub _has_negative { ( grep { $_ < 0 } @{ $_[0] }{@all_units} ) ? 1 : 0 }
+sub _has_positive {
+    ( grep { $_ > 0 } @{ $_[0] }{@all_units} ) ? 1 : 0;
+}
 
-sub is_zero       { return 0 if grep { $_ != 0 } @{ $_[0] }{@all_units};
-                    return 1 }
+sub _has_negative {
+    ( grep { $_ < 0 } @{ $_[0] }{@all_units} ) ? 1 : 0;
+}
 
-sub delta_months  { $_[0]->{months} }
-sub delta_days    { $_[0]->{days} }
-sub delta_minutes { $_[0]->{minutes} }
-sub delta_seconds { $_[0]->{seconds} }
+sub is_zero {
+    return 0 if grep { $_ != 0 } @{ $_[0] }{@all_units};
+    return 1;
+}
+
+sub delta_months      { $_[0]->{months} }
+sub delta_days        { $_[0]->{days} }
+sub delta_minutes     { $_[0]->{minutes} }
+sub delta_seconds     { $_[0]->{seconds} }
 sub delta_nanoseconds { $_[0]->{nanoseconds} }
 
-sub deltas
-{
+sub deltas {
     map { $_ => $_[0]->{$_} } @all_units;
 }
 
-sub in_units
-{
+sub in_units {
     my $self  = shift;
     my @units = @_;
 
@@ -130,99 +134,91 @@ sub in_units
 
     my %ret;
 
-    my ( $months, $days, $minutes, $seconds ) =
-        @{ $self }{qw( months days minutes seconds )};
+    my ( $months, $days, $minutes, $seconds )
+        = @{$self}{qw( months days minutes seconds )};
 
-    if ( $units{years} )
-    {
+    if ( $units{years} ) {
         $ret{years} = int( $months / 12 );
         $months -= $ret{years} * 12;
     }
 
-    if ( $units{months} )
-    {
+    if ( $units{months} ) {
         $ret{months} = $months;
     }
 
-    if ( $units{weeks} )
-    {
+    if ( $units{weeks} ) {
         $ret{weeks} = int( $days / 7 );
         $days -= $ret{weeks} * 7;
     }
 
-    if ( $units{days} )
-    {
+    if ( $units{days} ) {
         $ret{days} = $days;
     }
 
-    if ( $units{hours} )
-    {
+    if ( $units{hours} ) {
         $ret{hours} = int( $minutes / 60 );
         $minutes -= $ret{hours} * 60;
     }
 
-    if ( $units{minutes} )
-    {
-        $ret{minutes} = $minutes
+    if ( $units{minutes} ) {
+        $ret{minutes} = $minutes;
     }
 
-    if ( $units{seconds} )
-    {
+    if ( $units{seconds} ) {
         $ret{seconds} = $seconds;
         $seconds = 0;
     }
 
-    if ( $units{nanoseconds} )
-    {
+    if ( $units{nanoseconds} ) {
         $ret{nanoseconds} = $seconds * MAX_NANOSECONDS + $self->{nanoseconds};
     }
 
     wantarray ? @ret{@units} : $ret{ $units[0] };
 }
 
-sub is_wrap_mode     { $_[0]->{end_of_month} eq 'wrap'   ? 1 : 0 }
-sub is_limit_mode    { $_[0]->{end_of_month} eq 'limit'  ? 1 : 0 }
+sub is_wrap_mode     { $_[0]->{end_of_month} eq 'wrap'     ? 1 : 0 }
+sub is_limit_mode    { $_[0]->{end_of_month} eq 'limit'    ? 1 : 0 }
 sub is_preserve_mode { $_[0]->{end_of_month} eq 'preserve' ? 1 : 0 }
 
 sub end_of_month_mode { $_[0]->{end_of_month} }
 
-sub calendar_duration
-{
+sub calendar_duration {
     my $self = shift;
 
-    return
-        (ref $self)->new( map { $_ => $self->{$_} } qw( months days end_of_month ) )
+    return ( ref $self )
+        ->new( map { $_ => $self->{$_} } qw( months days end_of_month ) );
 }
 
-sub clock_duration
-{
+sub clock_duration {
     my $self = shift;
 
-    return
-        (ref $self)->new( map { $_ => $self->{$_} } qw( minutes seconds nanoseconds end_of_month ) )
+    return ( ref $self )
+        ->new( map { $_ => $self->{$_} }
+            qw( minutes seconds nanoseconds end_of_month ) );
 }
 
-sub inverse
-{
+sub inverse {
     my $self = shift;
+    my %p    = @_;
 
     my %new;
-    foreach my $u (@all_units)
-    {
+    foreach my $u (@all_units) {
         $new{$u} = $self->{$u};
+
         # avoid -0 bug
         $new{$u} *= -1 if $new{$u};
     }
 
-    return (ref $self)->new(%new);
+    $new{end_of_month} = $p{end_of_month}
+        if exists $p{end_of_month};
+
+    return ( ref $self )->new(%new);
 }
 
-sub add_duration
-{
+sub add_duration {
     my ( $self, $dur ) = @_;
 
-    foreach my $u (@all_units)
-    {
+    foreach my $u (@all_units) {
         $self->{$u} += $dur->{$u};
     }
 
@@ -231,29 +227,25 @@ sub add_duration
     return $self;
 }
 
-sub add
-{
+sub add {
     my $self = shift;
 
-    return $self->add_duration( (ref $self)->new(@_) );
+    return $self->add_duration( ( ref $self )->new(@_) );
 }
 
 sub subtract_duration { return $_[0]->add_duration( $_[1]->inverse ) }
 
-sub subtract
-{
+sub subtract {
     my $self = shift;
 
-    return $self->subtract_duration( (ref $self)->new(@_) )
+    return $self->subtract_duration( ( ref $self )->new(@_) );
 }
 
-sub multiply
-{
-    my $self = shift;
+sub multiply {
+    my $self       = shift;
     my $multiplier = shift;
 
-    foreach my $u (@all_units)
-    {
+    foreach my $u (@all_units) {
         $self->{$u} *= $multiplier;
     }
 
@@ -262,24 +254,21 @@ sub multiply
     return $self;
 }
 
-sub compare
-{
+sub compare {
     my ( $class, $dur1, $dur2, $dt ) = @_;
 
     $dt ||= DateTime->now;
 
-    return
-        DateTime->compare( $dt->clone->add_duration($dur1), $dt->clone->add_duration($dur2) );
+    return DateTime->compare( $dt->clone->add_duration($dur1),
+        $dt->clone->add_duration($dur2) );
 }
 
-sub _add_overload
-{
+sub _add_overload {
     my ( $d1, $d2, $rev ) = @_;
 
-    ($d1, $d2) = ($d2, $d1) if $rev;
+    ( $d1, $d2 ) = ( $d2, $d1 ) if $rev;
 
-    if ( DateTime::Helpers::isa( $d2, 'DateTime' ) )
-    {
+    if ( DateTime::Helpers::isa( $d2, 'DateTime' ) ) {
         $d2->add_duration($d1);
         return;
     }
@@ -288,20 +277,19 @@ sub _add_overload
     return $d1->clone->add_duration($d2);
 }
 
-sub _subtract_overload
-{
+sub _subtract_overload {
     my ( $d1, $d2, $rev ) = @_;
 
-    ($d1, $d2) = ($d2, $d1) if $rev;
+    ( $d1, $d2 ) = ( $d2, $d1 ) if $rev;
 
-    Carp::croak( "Cannot subtract a DateTime object from a DateTime::Duration object" )
+    Carp::croak(
+        "Cannot subtract a DateTime object from a DateTime::Duration object")
         if DateTime::Helpers::isa( $d2, 'DateTime' );
 
     return $d1->clone->subtract_duration($d2);
 }
 
-sub _multiply_overload
-{
+sub _multiply_overload {
     my $self = shift;
 
     my $new = $self->clone;
@@ -309,12 +297,11 @@ sub _multiply_overload
     return $new->multiply(@_);
 }
 
-sub _compare_overload
-{
+sub _compare_overload {
     Carp::croak( 'DateTime::Duration does not overload comparison.'
-                 . '  See the documentation on the compare() method for details.' );
+            . '  See the documentation on the compare() method for details.'
+    );
 }
-
 
 1;
 
@@ -523,12 +510,15 @@ only) and end of month mode as the current object.
 Returns a new object with the same I<clock> deltas (minutes, seconds,
 and nanoseconds) and end of month mode as the current object.
 
-=item * inverse
+=item * inverse( ... )
 
 Returns a new object with the same deltas as the current object, but
 multiple by -1.  The end of month mode for the new object will be the
 default end of month mode, which depends on whether the new duration
 is positive or negative.
+
+You can set the end of month mode in the inverted duration explicitly by
+passing "end_of_month => ..." to the C<inverse()> method.
 
 =item * add_duration( $duration_object ), subtract_duration( $duration_object )
 
@@ -612,7 +602,7 @@ stole all the code from.
 
 =head1 COPYRIGHT
 
-Copyright (c) 2003-2009 David Rolsky.  All rights reserved.  This
+Copyright (c) 2003-2010 David Rolsky.  All rights reserved.  This
 program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
 

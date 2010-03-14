@@ -64,5 +64,6 @@ tools/leap_seconds_header.pl
 xt/pod-coverage.t
 xt/pod-spell.t
 xt/pod.t
+xt/test-all-my-deps.t
 xt/versions-match.t
 SIGNATURE    Added here by Module::Build

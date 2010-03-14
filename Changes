@@ -1,3 +1,29 @@
+0.54   2010-03-14
+
+- Bumped the DateTime::TimeZone prereq to 1.09 to force people to use a modern
+  version. Previously the minimum version was 0.59, and there have been a lot
+  of bug fixes since then.
+
+- String overloading now extends to string comparison, so a DateTime object
+  can be compared to any string. In other words
+
+  if ( $dt eq $string ) { ... }
+
+  will simply stringify $dt and then do a normal string-is-equals
+  check. Previously, this would blow up unless both operands were a DateTime
+  object.
+
+  Note that future versions of Test::More (0.95_01+) will no longer stringify
+  arguments to is(), which means that older versions of DateTime may cause new
+  test failures when you upgrade Test::More. It is highly recommended that you
+  upgrade DateTime before upgrading to Test::More 0.95_01+.
+
+  Patch by Michael Schwern. RT #55453.
+
+- Allow passing end_of_month setting to $duration->inverse(). Requested by
+  John Siracusa. RT #53985.
+
+
 0.53   2009-12-06
 
 - Added Test::Exception to build_requires.
