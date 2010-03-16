@@ -32,8 +32,7 @@ my $builder = Module::Build->new(
         resources => {
             homepage   => 'http://datetime.perl.org/',
             bugtracker => 'http://rt.cpan.org/NoAuth/Bugs.html?Dist=DateTime',
-            repository =>
-                'https://perl-date-time.svn.sourceforge.net/svnroot/perl-date-time',
+            repository => 'http://hg.urth.org/hg/DateTime.pm',
         },
     },
 );
@@ -46,7 +45,7 @@ if ($force_pp) {
 $builder->create_build_script();
 
 sub _make_pp_tests {
-    return unless -d '.svn';
+    return unless -d '.hg';
 
     require File::Slurp;
     File::Slurp->import(qw( read_file write_file ));

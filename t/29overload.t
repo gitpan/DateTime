@@ -18,19 +18,19 @@ use DateTime;
     );
 
     my $before_string = '2050-01-15T20:10:09';
-    my $dt_string     = '2050-01-15T20:10:10';
+    my $same_string   = '2050-01-15T20:10:10';
     my $after_string  = '2050-01-15T20:10:11';
 
-    is( "$dt", $dt_string, 'stringification overloading' );
-    ok( $dt eq $dt_string, 'eq overloading true' );
+    is( "$dt", $same_string, 'stringification overloading' );
+    ok( $dt eq $same_string, 'eq overloading true' );
     ok( !( $dt eq $after_string ), 'eq overloading false' );
     ok( $dt ne $after_string, 'ne overloading true' );
-    ok( !( $dt ne $dt_string ), 'ne overloading false' );
+    ok( !( $dt ne $same_string ), 'ne overloading false' );
 
-    is( $dt cmp $dt_string,    0,  'cmp overloading' );
+    is( $dt cmp $same_string,  0,  'cmp overloading' );
     is( $dt cmp $after_string, -1, '  less than' );
-    ok( $dt lt $after_string,   'lt overloading' );
-    ok( !( $dt lt $dt_string ), '  not' );
+    ok( $dt lt $after_string,     'lt overloading' );
+    ok( !( $dt lt $same_string ), '  not' );
 
     {
 
@@ -45,27 +45,29 @@ use DateTime;
         }
     }
 
-    my $same   = Other::Date->new($dt_string);
-    my $after  = Other::Date->new($after_string);
-    my $before = Other::Date->new($before_string);
-    ok $dt eq $same, "DateTime eq non-DateTime overloaded object true";
-    ok !( $dt eq $after ), "  eq false";
-    ok $dt ne $after, "  ne true";
-    ok !( $dt ne $same ), "  ne false";
+    my $same_od   = Other::Date->new($same_string);
+    my $after_od  = Other::Date->new($after_string);
+    my $before_od = Other::Date->new($before_string);
 
-    is( $dt cmp $same,  0,  'cmp overloading' );
-    is( $dt cmp $after, -1, '  lt overloading' );
-    ok( $dt lt $after,     'lt overloading' );
-    ok( !( $dt lt $same ), '  not' );
+    ok( $dt eq $same_od, "DateTime eq non-DateTime overloaded object true" );
+    ok( !( $dt eq $after_od ), "  eq false" );
+    ok( $dt ne $after_od, "  ne true" );
+    ok( !( $dt ne $same_od ), "  ne false" );
+
+    is( $dt cmp $same_od,  0,  'cmp overloading' );
+    is( $dt cmp $after_od, -1, '  lt overloading' );
+    ok( $dt lt $after_od,     'lt overloading' );
+    ok( !( $dt lt $same_od ), '  not' );
 
     is_deeply(
         [
-            sort { $a cmp $b } $same, $after, $before, $dt, $dt_string,
-            $after_string, $before_string
+            map { $_ . ' - ' . ( ref $_ || 'no ref' ) }
+                sort { $a cmp $b or ref $a cmp ref $b } $same_od, $after_od,
+            $before_od, $dt, $same_string, $after_string, $before_string
         ],
         [
-            $before, $before_string, $dt, $same, $dt_string, $after,
-            $after_string
+            map { $_ . ' - ' . ( ref $_ || 'no ref' ) } $before_string,
+            $before_od, $same_string, $dt, $same_od, $after_string, $after_od
         ],
         "eq sort"
     );

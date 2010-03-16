@@ -14,8 +14,6 @@ lib/DateTimePP.pm
 lib/DateTimePPExtra.pm
 LICENSE
 MANIFEST			This list of files
-META.yml
-README
 t/00load.t
 t/01sanity.t
 t/02last_day.t
@@ -66,4 +64,6 @@ xt/pod-spell.t
 xt/pod.t
 xt/test-all-my-deps.t
 xt/versions-match.t
+README
+META.yml
 SIGNATURE    Added here by Module::Build
