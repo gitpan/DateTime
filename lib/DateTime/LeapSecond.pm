@@ -1,12 +1,12 @@
 package DateTime::LeapSecond;
+BEGIN {
+  $DateTime::LeapSecond::VERSION = '0.57';
+}
 
 use strict;
 use warnings;
 
-use vars qw( $VERSION );
 use vars qw( @RD @LEAP_SECONDS %RD_LENGTH );
-
-$VERSION = '0.05';    # last standalone distro was 0.03
 
 use DateTime;
 
@@ -130,7 +130,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 0.56
+version 0.57
 
 =head1 SYNOPSIS
 

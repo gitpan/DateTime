@@ -32,7 +32,7 @@ my %WriteMakefileArgs = (
     'Scalar::Util' => '0',
     'Time::Local' => '1.04'
   },
-  'VERSION' => '0.56',
+  'VERSION' => '0.57',
   'test' => {
     'TESTS' => 't/*.t'
   }

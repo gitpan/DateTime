@@ -1,6 +1,6 @@
 package DateTime::Helpers;
 BEGIN {
-  $DateTime::Helpers::VERSION = '0.56';
+  $DateTime::Helpers::VERSION = '0.57';
 }
 
 use strict;
@@ -38,7 +38,7 @@ DateTime::Helpers - Helper functions for other DateTime modules
 
 =head1 VERSION
 
-version 0.56
+version 0.57
 
 =head1 AUTHOR
 
