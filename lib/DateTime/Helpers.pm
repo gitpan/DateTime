@@ -1,9 +1,10 @@
 package DateTime::Helpers;
+BEGIN {
+  $DateTime::Helpers::VERSION = '0.56';
+}
 
 use strict;
 use warnings;
-
-our $VERSION = '0.55';
 
 use Scalar::Util ();
 
@@ -25,23 +26,34 @@ sub isa {
 
 1;
 
-__END__
+# ABSTRACT: Helper functions for other DateTime modules
+
+
+
+=pod
 
 =head1 NAME
 
 DateTime::Helpers - Helper functions for other DateTime modules
 
+=head1 VERSION
+
+version 0.56
+
 =head1 AUTHOR
 
-Dave Rolsky <autarch@urth.org>
+  Dave Rolsky <autarch@urth.org>
 
-However, please see the CREDITS file for more details on who I really
-stole all the code from.
+=head1 COPYRIGHT AND LICENSE
 
-=head1 COPYRIGHT
+This software is Copyright (c) 2010 by Dave Rolsky.
 
-Copyright (c) 2003-2010 David Rolsky.  All rights reserved.  This
-program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
+This is free software, licensed under:
+
+  The Artistic License 2.0
 
 =cut
+
+
+__END__
+

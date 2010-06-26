@@ -1,8 +1,17 @@
-Build.PL
+CREDITS
+Changes
+INSTALL
+LICENSE
+MANIFEST
+META.json
+META.yml
+Makefile.PL
+README
+SIGNATURE
+TODO
 c/leap_seconds.h
 c/ppport.h
-Changes
-CREDITS
+dist.ini
 leaptab.txt
 lib/DateTime.pm
 lib/DateTime.xs
@@ -12,8 +21,6 @@ lib/DateTime/Infinite.pm
 lib/DateTime/LeapSecond.pm
 lib/DateTimePP.pm
 lib/DateTimePPExtra.pm
-LICENSE
-MANIFEST			This list of files
 t/00load.t
 t/01sanity.t
 t/02last_day.t
@@ -57,13 +64,12 @@ t/40leap-years.t
 t/41cldr_format.t
 t/42duration_class.t
 t/43new-params.t
-TODO
+t/44set_formatter.t
+t/author-test-all-my-deps.t
+t/release-eol.t
+t/release-kwalitee.t
+t/release-no-tabs.t
+t/release-pod-coverage.t
+t/release-pod-spell.t
+t/release-pod.t
 tools/leap_seconds_header.pl
-xt/pod-coverage.t
-xt/pod-spell.t
-xt/pod.t
-xt/test-all-my-deps.t
-xt/versions-match.t
-README
-META.yml
-SIGNATURE    Added here by Module::Build

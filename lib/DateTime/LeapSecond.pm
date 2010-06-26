@@ -3,8 +3,6 @@ package DateTime::LeapSecond;
 use strict;
 use warnings;
 
-our $VERSION = '0.55';
-
 use vars qw( $VERSION );
 use vars qw( @RD @LEAP_SECONDS %RD_LENGTH );
 
@@ -120,11 +118,19 @@ sub _initialize {
 __PACKAGE__->_initialize();
 
 1;
-__END__
+# ABSTRACT: leap seconds table and utilities
+
+
+
+=pod
 
 =head1 NAME
 
 DateTime::LeapSecond - leap seconds table and utilities
+
+=head1 VERSION
+
+version 0.56
 
 =head1 SYNOPSIS
 
@@ -165,24 +171,26 @@ in the range 86398 .. 86402.
 
 =back
 
-=head1 AUTHOR
-
-Flávio Soibelmann Glock, E<lt>fglock@pucrs.brE<gt>
-
-=head1 COPYRIGHT
-
-Copyright (c) 2003 Flávio Soibelmann Glock.  Copyright (c) 2004-2010
-David Rolsky.  All rights reserved.  This program is free software;
-you can redistribute it and/or modify it under the same terms as Perl
-itself.
-
-The full text of the license can be found in the LICENSE file included
-with this module.
-
 =head1 SEE ALSO
 
 E<lt>http://hpiers.obspm.fr/eop-pc/earthor/utc/leapsecond.htmlE<gt>
 
 http://datetime.perl.org
 
+=head1 AUTHOR
+
+  Dave Rolsky <autarch@urth.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Dave Rolsky.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0
+
 =cut
+
+
+__END__
+

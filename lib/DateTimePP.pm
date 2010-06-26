@@ -1,4 +1,7 @@
 package DateTime;
+BEGIN {
+  $DateTime::VERSION = '0.56';
+}
 
 use strict;
 use warnings;
@@ -209,3 +212,29 @@ sub _accumulated_leap_seconds { DateTime::LeapSecond::leap_seconds( $_[1] ) }
 use DateTimePPExtra;
 
 1;
+
+__END__
+=pod
+
+=head1 NAME
+
+DateTime
+
+=head1 VERSION
+
+version 0.56
+
+=head1 AUTHOR
+
+  Dave Rolsky <autarch@urth.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Dave Rolsky.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0
+
+=cut
+

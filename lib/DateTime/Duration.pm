@@ -1,9 +1,10 @@
 package DateTime::Duration;
+BEGIN {
+  $DateTime::Duration::VERSION = '0.56';
+}
 
 use strict;
 use warnings;
-
-our $VERSION = '0.55';
 
 use Carp ();
 use DateTime;
@@ -305,11 +306,19 @@ sub _compare_overload {
 
 1;
 
-__END__
+# ABSTRACT: Duration objects for date math
+
+
+
+=pod
 
 =head1 NAME
 
 DateTime::Duration - Duration objects for date math
+
+=head1 VERSION
+
+version 0.56
 
 =head1 SYNOPSIS
 
@@ -442,7 +451,6 @@ after taking away the larger units given, so for example:
   $dur->in_units( 'months' );           # 27
   $dur->in_units( 'years', 'months' );  # (2, 3)
   $dur->in_units( 'weeks', 'days' );    # (0, 0) !
-
 
 The last example demonstrates that there will not be any conversion
 between units which don't have a fixed conversion rate.  The only
@@ -593,30 +601,27 @@ C<compare()> class method instead.
 Support for this module is provided via the datetime@perl.org email
 list.  See http://lists.perl.org/ for more details.
 
-=head1 AUTHOR
-
-Dave Rolsky <autarch@urth.org>
-
-However, please see the CREDITS file for more details on who I really
-stole all the code from.
-
-=head1 COPYRIGHT
-
-Copyright (c) 2003-2010 David Rolsky.  All rights reserved.  This
-program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
-Portions of the code in this distribution are derived from other
-works.  Please see the CREDITS file for more details.
-
-The full text of the license can be found in the LICENSE file included
-with this module.
-
 =head1 SEE ALSO
 
 datetime@perl.org mailing list
 
 http://datetime.perl.org/
 
+=head1 AUTHOR
+
+  Dave Rolsky <autarch@urth.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Dave Rolsky.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0
+
 =cut
+
+
+__END__
+
 

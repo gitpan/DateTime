@@ -1,9 +1,10 @@
 package DateTime::Infinite;
+BEGIN {
+  $DateTime::Infinite::VERSION = '0.56';
+}
 
 use strict;
 use warnings;
-
-our $VERSION = '0.55';
 
 use DateTime;
 use DateTime::TimeZone;
@@ -38,6 +39,9 @@ sub STORABLE_freeze {return}
 sub STORABLE_thaw   {return}
 
 package DateTime::Infinite::Future;
+BEGIN {
+  $DateTime::Infinite::Future::VERSION = '0.56';
+}
 
 use base qw(DateTime::Infinite);
 
@@ -59,6 +63,9 @@ use base qw(DateTime::Infinite);
 }
 
 package DateTime::Infinite::Past;
+BEGIN {
+  $DateTime::Infinite::Past::VERSION = '0.56';
+}
 
 use base qw(DateTime::Infinite);
 
@@ -81,11 +88,19 @@ use base qw(DateTime::Infinite);
 
 1;
 
-__END__
+# ABSTRACT: Infinite past and future DateTime objects
+
+
+
+=pod
 
 =head1 NAME
 
 DateTime::Infinite - Infinite past and future DateTime objects
+
+=head1 VERSION
+
+version 0.56
 
 =head1 SYNOPSIS
 
@@ -125,24 +140,27 @@ the object they are called with.
 Obviously, the C<is_finite()> method returns false and the
 C<is_infinite()> method returns true.
 
-=head1 AUTHOR
-
-Dave Rolsky <autarch@urth.org>
-
-=head1 COPYRIGHT
-
-Copyright (c) 2003-2010 David Rolsky.  All rights reserved.  This
-program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
-The full text of the license can be found in the LICENSE file included
-with this module.
-
 =head1 SEE ALSO
 
 datetime@perl.org mailing list
 
 http://datetime.perl.org/
 
+=head1 AUTHOR
+
+  Dave Rolsky <autarch@urth.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Dave Rolsky.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0
+
 =cut
+
+
+__END__
+
 

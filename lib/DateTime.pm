@@ -1,4 +1,7 @@
 package DateTime;
+BEGIN {
+  $DateTime::VERSION = '0.56';
+}
 
 use 5.006;
 
@@ -8,11 +11,7 @@ use warnings;
 use Carp;
 use DateTime::Helpers;
 
-our $VERSION;
-
 BEGIN {
-    $VERSION = '0.55';
-
     my $loaded = 0;
     unless ( $ENV{PERL_DATETIME_PP} ) {
         local $@;
@@ -42,7 +41,7 @@ use DateTime::Locale 0.40;
 use DateTime::TimeZone 0.59;
 use Time::Local qw( timegm_nocheck );
 use Params::Validate
-    qw( validate validate_pos SCALAR BOOLEAN HASHREF OBJECT );
+    qw( validate validate_pos UNDEF SCALAR BOOLEAN HASHREF OBJECT );
 
 # for some reason, overloading doesn't work unless fallback is listed
 # early.
@@ -172,6 +171,14 @@ my $BasicValidate = {
         type     => SCALAR | OBJECT,
         optional => 1
     },
+    formatter => {
+        type      => UNDEF | SCALAR | OBJECT,
+        optional  => 1,
+        callbacks => {
+            'can format_datetime' =>
+                sub { defined $_[0] ? $_[0]->can('format_datetime') : 1 },
+        },
+    },
 };
 
 my $NewValidate = {
@@ -180,8 +187,6 @@ my $NewValidate = {
         type    => SCALAR | OBJECT,
         default => 'floating'
     },
-    formatter =>
-        { type => SCALAR | OBJECT, can => 'format_datetime', optional => 1 },
 };
 
 sub new {
@@ -1883,10 +1888,8 @@ sub set_hour       { $_[0]->set( hour       => $_[1] ) }
 sub set_minute     { $_[0]->set( minute     => $_[1] ) }
 sub set_second     { $_[0]->set( second     => $_[1] ) }
 sub set_nanosecond { $_[0]->set( nanosecond => $_[1] ) }
-
-sub set_locale { $_[0]->set( locale => $_[1] ) }
-
-sub set_formatter { $_[0]->{formatter} = $_[1] }
+sub set_locale     { $_[0]->set( locale     => $_[1] ) }
+sub set_formatter  { $_[0]->set( formatter  => $_[1] ) }
 
 {
     my %TruncateDefault = (
@@ -1972,7 +1975,7 @@ sub STORABLE_freeze {
     }
 
     # not used yet, but may be handy in the future.
-    $serialized .= "version:$VERSION";
+    $serialized .= "version:$DateTime::VERSION";
 
     # Formatter needs to be returned as a reference since it may be
     # undef or a class name, and Storable will complain if extra
@@ -2028,6 +2031,9 @@ sub STORABLE_thaw {
 }
 
 package DateTime::_Thawed;
+BEGIN {
+  $DateTime::_Thawed::VERSION = '0.56';
+}
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
 
@@ -2035,11 +2041,19 @@ sub time_zone { $_[0]->{tz} }
 
 1;
 
-__END__
+# ABSTRACT: A date and time object
+
+
+
+=pod
 
 =head1 NAME
 
 DateTime - A date and time object
+
+=head1 VERSION
+
+version 0.56
 
 =head1 SYNOPSIS
 
@@ -2917,6 +2931,8 @@ Yes, now we can know "ni3 na4 bian1 ji2dian3?"
 Set the formatter for the object. See L<Formatters And
 Stringification> for details.
 
+You can set this to C<undef> to revert to the default formatter.
+
 =back
 
 =head3 Math Methods
@@ -3082,6 +3098,24 @@ If you do not care about time zones or leap seconds, use the
 Math done on two objects in the floating time zone produces very
 predictable results.
 
+Note that in most cases you will want to start by creating an object in a
+specific zone and I<then> convert it to the floating time zone. When an object
+goes from a real zone to the floating zone, the time for the object remains
+the same.
+
+This means that passing the floating zone to a constructor may not do what you
+want.
+
+  my $dt = DateTime->now( time_zone => 'floating' );
+
+is equivalent to
+
+  my $dt = DateTime->now( time_zone => 'UTC' )->set_time_zone('floating');
+
+This might not be what you wanted. Instead, you may prefer to do this:
+
+  my $dt = DateTime->now( time_zone => 'local' )->set_time_zone('floating');
+
 =item * use UTC for all calculations
 
 If you do care about time zones (particularly DST) or leap seconds,
@@ -3196,6 +3230,23 @@ This returns a duration which only contains seconds and nanoseconds.
 
 If we were add the duration to a different datetime object we might
 get a different number of seconds.
+
+L<DateTime::Duration> supports three different end-of-month algorithms for
+adding months. This comes into play when an addition results in a day past the
+end of the month (for example, adding one month to January 30).
+
+ # 2010-08-31 + 1 month = 2010-10-01
+ $dt->add( months => 1, end_of_month => 'wrap' );
+
+ # 2010-01-30 + 1 month = 2010-02-28
+ $dt->add( months => 1, end_of_month => 'limit' );
+
+ # 2010-04-30 + 1 month = 2010-05-31
+ $dt->add( months => 1, end_of_month => 'preserve' );
+
+By default, it uses "wrap" for positive durations and "preserve" for negative
+durations. See L<DateTime::Duration> for a detailed explanation of these
+algorithms.
 
 If you need to do lots of work with durations, take a look at Rick
 Measham's C<DateTime::Format::Duration> module, which lets you present
@@ -3983,29 +4034,26 @@ To donate, log into PayPal and send money to autarch@urth.org or use
 the button on this page:
 L<http://www.urth.org/~autarch/fs-donation.html>
 
-=head1 AUTHOR
-
-Dave Rolsky <autarch@urth.org>
-
-However, please see the CREDITS file for more details on who I really
-stole all the code from.
-
-=head1 COPYRIGHT
-
-Copyright (c) 2003-2010 David Rolsky.  All rights reserved.  This
-program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-
-Portions of the code in this distribution are derived from other
-works.  Please see the CREDITS file for more details.
-
-The full text of the license can be found in the LICENSE file included
-with this module.
-
 =head1 SEE ALSO
 
 datetime@perl.org mailing list
 
 http://datetime.perl.org/
 
+=head1 AUTHOR
+
+  Dave Rolsky <autarch@urth.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+This software is Copyright (c) 2010 by Dave Rolsky.
+
+This is free software, licensed under:
+
+  The Artistic License 2.0
+
 =cut
+
+
+__END__
+
