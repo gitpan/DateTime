@@ -1,6 +1,6 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.57';
+  $DateTime::VERSION = '0.58';
 }
 
 use 5.006;
@@ -2032,7 +2032,7 @@ sub STORABLE_thaw {
 
 package DateTime::_Thawed;
 BEGIN {
-  $DateTime::_Thawed::VERSION = '0.57';
+  $DateTime::_Thawed::VERSION = '0.58';
 }
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
@@ -2053,7 +2053,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.57
+version 0.58
 
 =head1 SYNOPSIS
 
@@ -2090,7 +2090,7 @@ version 0.57
 
   $qtr    = $dt->quarter;        # 1-4
 
-  # all of the start-at-1 methods above have correponding start-at-0
+  # all of the start-at-1 methods above have corresponding start-at-0
   # methods, such as $dt->day_of_month_0, $dt->month_0 and so on
 
   $ymd    = $dt->ymd;           # 2002-12-06

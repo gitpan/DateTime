@@ -1,3 +1,4 @@
+Build.PL
 CREDITS
 Changes
 INSTALL
@@ -5,13 +6,13 @@ LICENSE
 MANIFEST
 META.json
 META.yml
-Makefile.PL
 README
 SIGNATURE
 TODO
 c/leap_seconds.h
 c/ppport.h
 dist.ini
+inc/MyModuleBuild.pm
 leaptab.txt
 lib/DateTime.pm
 lib/DateTime.xs
