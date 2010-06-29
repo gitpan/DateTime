@@ -1,3 +1,13 @@
+use Test::More;
+
+BEGIN {
+    unless ( $ENV{RELEASE_TESTING} ) {
+        plan skip_all => 'these tests are for testing by the release';
+    }
+
+    $ENV{PERL_DATETIME_PP} = 1;
+}
+
 # test suite stolen shamelessly from TimeDate distro
 use strict;
 use warnings;
@@ -265,3 +275,4 @@ it
 %z => '+0000'
 %{month} => '9'
 %{year} => '1999'
+

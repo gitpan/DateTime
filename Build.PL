@@ -22,7 +22,7 @@ my %module_build_args = (
     'Dave Rolsky <autarch@urth.org>'
   ],
   'dist_name' => 'DateTime',
-  'dist_version' => '0.58',
+  'dist_version' => '0.59',
   'license' => 'artistic_2',
   'module_name' => 'DateTime',
   'recommends' => {},

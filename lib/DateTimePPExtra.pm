@@ -1,6 +1,6 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.58';
+  $DateTime::VERSION = '0.59';
 }
 
 use strict;
@@ -67,29 +67,3 @@ sub _normalize_leap_seconds {
 }
 
 1;
-
-__END__
-=pod
-
-=head1 NAME
-
-DateTime
-
-=head1 VERSION
-
-version 0.58
-
-=head1 AUTHOR
-
-  Dave Rolsky <autarch@urth.org>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2010 by Dave Rolsky.
-
-This is free software, licensed under:
-
-  The Artistic License 2.0
-
-=cut
-

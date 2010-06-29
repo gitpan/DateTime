@@ -1,6 +1,6 @@
 package DateTime::Helpers;
 BEGIN {
-  $DateTime::Helpers::VERSION = '0.58';
+  $DateTime::Helpers::VERSION = '0.59';
 }
 
 use strict;
@@ -25,35 +25,3 @@ sub isa {
 }
 
 1;
-
-# ABSTRACT: Helper functions for other DateTime modules
-
-
-
-=pod
-
-=head1 NAME
-
-DateTime::Helpers - Helper functions for other DateTime modules
-
-=head1 VERSION
-
-version 0.58
-
-=head1 AUTHOR
-
-  Dave Rolsky <autarch@urth.org>
-
-=head1 COPYRIGHT AND LICENSE
-
-This software is Copyright (c) 2010 by Dave Rolsky.
-
-This is free software, licensed under:
-
-  The Artistic License 2.0
-
-=cut
-
-
-__END__
-
