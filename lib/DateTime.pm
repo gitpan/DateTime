@@ -1,6 +1,6 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.59';
+  $DateTime::VERSION = '0.60';
 }
 
 use 5.006;
@@ -2032,7 +2032,7 @@ sub STORABLE_thaw {
 
 package DateTime::_Thawed;
 BEGIN {
-  $DateTime::_Thawed::VERSION = '0.59';
+  $DateTime::_Thawed::VERSION = '0.60';
 }
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
@@ -2053,7 +2053,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.59
+version 0.60
 
 =head1 SYNOPSIS
 
