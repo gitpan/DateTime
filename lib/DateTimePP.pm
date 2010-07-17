@@ -1,6 +1,6 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.60';
+  $DateTime::VERSION = '0.61';
 }
 
 use strict;
@@ -136,7 +136,7 @@ sub _ymd2rd {
     # 0-relative to Jan 1, year 1-relative (whew)
 
     $d
-        += ( $m * 367 - 1094 ) / 12 
+        += ( $m * 367 - 1094 ) / 12
         + $y % 100 * 1461 / 4
         + ( $y / 100 * 36524 + $y / 400 ) - 306;
 }

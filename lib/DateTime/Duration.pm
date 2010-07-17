@@ -1,6 +1,6 @@
 package DateTime::Duration;
 BEGIN {
-  $DateTime::Duration::VERSION = '0.60';
+  $DateTime::Duration::VERSION = '0.61';
 }
 
 use strict;
@@ -318,7 +318,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.60
+version 0.61
 
 =head1 SYNOPSIS
 
@@ -330,7 +330,7 @@ version 0.60
                                 days    => 1,
                                 hours   => 6,
                                 minutes => 15,
-                                seconds => 45, 
+                                seconds => 45,
                                 nanoseconds => 12000 );
 
   # Convert to different units
@@ -609,7 +609,7 @@ http://datetime.perl.org/
 
 =head1 AUTHOR
 
-  Dave Rolsky <autarch@urth.org>
+Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 

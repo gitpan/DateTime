@@ -1,6 +1,6 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.60';
+  $DateTime::VERSION = '0.61';
 }
 
 use 5.006;
@@ -950,7 +950,7 @@ sub jd {
 
     my $day_length = $self->_day_length( $self->{utc_rd_days} );
 
-    return (  $jd 
+    return (  $jd
             + ( $self->{utc_rd_secs} / $day_length )
             + ( $self->{rd_nanosecs} / $day_length / MAX_NANOSECONDS ) );
 }
@@ -2032,7 +2032,7 @@ sub STORABLE_thaw {
 
 package DateTime::_Thawed;
 BEGIN {
-  $DateTime::_Thawed::VERSION = '0.60';
+  $DateTime::_Thawed::VERSION = '0.61';
 }
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
@@ -2053,7 +2053,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.60
+version 0.61
 
 =head1 SYNOPSIS
 
@@ -4042,7 +4042,7 @@ http://datetime.perl.org/
 
 =head1 AUTHOR
 
-  Dave Rolsky <autarch@urth.org>
+Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 

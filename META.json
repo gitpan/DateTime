@@ -4,7 +4,7 @@
       "Dave Rolsky <autarch@urth.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.101812, CPAN::Meta::Converter version 2.101670",
+   "generated_by" : "Dist::Zilla version 4.101900, CPAN::Meta::Converter version 2.101670",
    "license" : [
       "artistic_2"
    ],
@@ -50,10 +50,10 @@
       },
       "repository" : {
          "type" : "hg",
-         "url" : "http://hg.urth.org/hg/DateTime",
-         "web" : "http://hg.urth.org/hg/DateTime"
+         "url" : "http://hg.urth.org/hg/DateTime.pm",
+         "web" : "http://hg.urth.org/hg/DateTime.pm"
       }
    },
-   "version" : "0.60"
+   "version" : "0.61"
 }
 
