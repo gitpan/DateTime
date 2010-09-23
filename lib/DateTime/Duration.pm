@@ -1,10 +1,9 @@
 package DateTime::Duration;
-BEGIN {
-  $DateTime::Duration::VERSION = '0.61';
-}
 
 use strict;
 use warnings;
+
+our $VERSION = '0.61';
 
 use Carp ();
 use DateTime;
@@ -318,7 +317,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.61
+version 0.62
 
 =head1 SYNOPSIS
 
@@ -468,9 +467,9 @@ conversions possible are:
 
 =back
 
-For the explanation of why this happens, please see the L<How Date
-Math is Done|DateTime/"How Date Math is Done"> section of the
-DateTime.pm documentation
+For the explanation of why this happens, please see the L<How Datetime Math
+Works|DateTime/"How DateTime Math Works"> section of the DateTime.pm
+documentation
 
 Note that the numbers returned by this method may not match the values
 given to the constructor.
@@ -609,7 +608,7 @@ http://datetime.perl.org/
 
 =head1 AUTHOR
 
-Dave Rolsky <autarch@urth.org>
+  Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 

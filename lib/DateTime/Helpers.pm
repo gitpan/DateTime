@@ -1,10 +1,9 @@
 package DateTime::Helpers;
-BEGIN {
-  $DateTime::Helpers::VERSION = '0.61';
-}
 
 use strict;
 use warnings;
+
+our $VERSION = '0.61';
 
 use Scalar::Util ();
 

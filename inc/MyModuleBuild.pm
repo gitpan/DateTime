@@ -1,23 +1,10 @@
 package inc::MyModuleBuild;
 
-use strict;
-use warnings;
-
 use Moose;
+use Moose::Autobox;
 
-extends 'Dist::Zilla::Plugin::ModuleBuild::XSOrPP';
+extends 'Dist::Zilla::Plugin::ModuleBuild';
 
-around module_build_args => sub {
-    my $orig = shift;
-    my $self = shift;
-
-    my $args = $self->$orig(@_);
-
-    $args->{c_source} = 'c';
-
-    return $args;
-};
-
-__PACKAGE__->meta()->make_immutable();
-
-1;
+sub setup_installer {
+    return;
+}

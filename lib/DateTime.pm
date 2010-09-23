@@ -1,7 +1,4 @@
 package DateTime;
-BEGIN {
-  $DateTime::VERSION = '0.61';
-}
 
 use 5.006;
 
@@ -12,6 +9,8 @@ use Carp;
 use DateTime::Helpers;
 
 BEGIN {
+    our $VERSION = '0.61';
+
     my $loaded = 0;
     unless ( $ENV{PERL_DATETIME_PP} ) {
         local $@;
@@ -2031,9 +2030,6 @@ sub STORABLE_thaw {
 }
 
 package DateTime::_Thawed;
-BEGIN {
-  $DateTime::_Thawed::VERSION = '0.61';
-}
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
 
@@ -2053,7 +2049,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.61
+version 0.62
 
 =head1 SYNOPSIS
 
@@ -3075,7 +3071,7 @@ implements the C<utc_rd_values()> method.
 
 =back
 
-=head2 How Datetime Math is Done
+=head2 How Datetime Math Works
 
 It's important to have some understanding of how datetime math is
 implemented in order to effectively use this module and
@@ -4042,7 +4038,7 @@ http://datetime.perl.org/
 
 =head1 AUTHOR
 
-Dave Rolsky <autarch@urth.org>
+  Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 

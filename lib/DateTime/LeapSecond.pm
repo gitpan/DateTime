@@ -1,10 +1,9 @@
 package DateTime::LeapSecond;
-BEGIN {
-  $DateTime::LeapSecond::VERSION = '0.61';
-}
 
 use strict;
 use warnings;
+
+our $VERSION = '0.61';
 
 use vars qw( @RD @LEAP_SECONDS %RD_LENGTH );
 
@@ -130,7 +129,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 0.61
+version 0.62
 
 =head1 SYNOPSIS
 
@@ -179,7 +178,7 @@ http://datetime.perl.org
 
 =head1 AUTHOR
 
-Dave Rolsky <autarch@urth.org>
+  Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
