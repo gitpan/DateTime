@@ -16,4 +16,4 @@ name: DateTime
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=DateTime
   repository: http://hg.urth.org/hg/DateTime.pm
-version: 0.62
+version: 0.63

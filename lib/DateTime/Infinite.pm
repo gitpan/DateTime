@@ -3,7 +3,7 @@ package DateTime::Infinite;
 use strict;
 use warnings;
 
-our $VERSION = '0.61';
+our $VERSION = '0.63';
 
 use DateTime;
 use DateTime::TimeZone;
@@ -93,7 +93,7 @@ DateTime::Infinite - Infinite past and future DateTime objects
 
 =head1 VERSION
 
-version 0.62
+version 0.63
 
 =head1 SYNOPSIS
 

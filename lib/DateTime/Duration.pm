@@ -3,7 +3,7 @@ package DateTime::Duration;
 use strict;
 use warnings;
 
-our $VERSION = '0.61';
+our $VERSION = '0.63';
 
 use Carp ();
 use DateTime;
@@ -317,7 +317,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.62
+version 0.63
 
 =head1 SYNOPSIS
 
