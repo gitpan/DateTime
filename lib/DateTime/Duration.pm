@@ -1,9 +1,10 @@
 package DateTime::Duration;
+BEGIN {
+  $DateTime::Duration::VERSION = '0.65';
+}
 
 use strict;
 use warnings;
-
-our $VERSION = '0.63';
 
 use Carp ();
 use DateTime;
@@ -317,7 +318,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.64
+version 0.65
 
 =head1 SYNOPSIS
 

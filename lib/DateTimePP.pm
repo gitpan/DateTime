@@ -1,9 +1,10 @@
 package DateTime;
+BEGIN {
+  $DateTime::VERSION = '0.65';
+}
 
 use strict;
 use warnings;
-
-our $VERSION = '0.63';
 
 $DateTime::IsPurePerl = 1;
 

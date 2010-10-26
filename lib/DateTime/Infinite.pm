@@ -1,9 +1,10 @@
 package DateTime::Infinite;
+BEGIN {
+  $DateTime::Infinite::VERSION = '0.65';
+}
 
 use strict;
 use warnings;
-
-our $VERSION = '0.63';
 
 use DateTime;
 use DateTime::TimeZone;
@@ -38,6 +39,9 @@ sub STORABLE_freeze {return}
 sub STORABLE_thaw   {return}
 
 package DateTime::Infinite::Future;
+BEGIN {
+  $DateTime::Infinite::Future::VERSION = '0.65';
+}
 
 use base qw(DateTime::Infinite);
 
@@ -59,6 +63,9 @@ use base qw(DateTime::Infinite);
 }
 
 package DateTime::Infinite::Past;
+BEGIN {
+  $DateTime::Infinite::Past::VERSION = '0.65';
+}
 
 use base qw(DateTime::Infinite);
 
@@ -93,7 +100,7 @@ DateTime::Infinite - Infinite past and future DateTime objects
 
 =head1 VERSION
 
-version 0.64
+version 0.65
 
 =head1 SYNOPSIS
 
