@@ -9,14 +9,17 @@ use Carp;
 use DateTime::Helpers;
 
 BEGIN {
-    our $VERSION = '0.63';
-
     my $loaded = 0;
+
     unless ( $ENV{PERL_DATETIME_PP} ) {
         local $@;
         eval {
             require XSLoader;
-            XSLoader::load( 'DateTime', $DateTime::VERSION );
+            XSLoader::load( __PACKAGE__,
+                exists $DateTime::{VERSION}
+                ? ${ $DateTime::{VERSION} }
+                : ()
+            );
 
             $DateTime::IsPurePerl = 0;
         };
@@ -196,6 +199,23 @@ sub new {
         "Invalid day of month (day = $p{day} - month = $p{month} - year = $p{year})\n"
     ) if $p{day} > $class->_month_length( $p{year}, $p{month} );
 
+    return $class->_new(%p);
+}
+
+sub _new {
+    my $class = shift;
+    my %p     = @_;
+
+    # If this method is called from somewhere other than new(), then some of
+    # these default may not get applied.
+    $p{month}      = 1          unless exists $p{month};
+    $p{day}        = 1          unless exists $p{day};
+    $p{hour}       = 0          unless exists $p{hour};
+    $p{minute}     = 0          unless exists $p{minute};
+    $p{second}     = 0          unless exists $p{second};
+    $p{nanosecond} = 0          unless exists $p{nanosecond};
+    $p{time_zone}  = 'floating' unless exists $p{time_zone};
+
     my $self = bless {}, $class;
 
     $p{locale} = delete $p{language} if exists $p{language};
@@ -261,6 +281,7 @@ sub new {
 # a new object based on the current object, like set() and truncate().
 sub _new_from_self {
     my $self = shift;
+    my %p    = @_;
 
     my %old = map { $_ => $self->$_() }
         qw( year month day hour minute second nanosecond
@@ -268,7 +289,9 @@ sub _new_from_self {
     $old{formatter} = $self->formatter()
         if defined $self->formatter();
 
-    return ( ref $self )->new( %old, @_ );
+    my $method = delete $p{_skip_validation} ? '_new' : 'new';
+
+    return ( ref $self )->$method( %old, %p );
 }
 
 sub _handle_offset_modifier {
@@ -473,7 +496,7 @@ sub _utc_hms {
         $args{year} += 1900;
         $args{month}++;
 
-        my $self = $class->new( %p, %args, time_zone => 'UTC' );
+        my $self = $class->_new( %p, %args, time_zone => 'UTC' );
 
         $self->set_time_zone( $p{time_zone} ) if exists $p{time_zone};
 
@@ -561,7 +584,7 @@ sub last_day_of_month {
 
     my $day = $class->_month_length( $p{year}, $p{month} );
 
-    return $class->new( %p, day => $day );
+    return $class->_new( %p, day => $day );
 }
 
 sub _month_length {
@@ -608,7 +631,7 @@ sub from_day_of_year {
         $month++;
     }
 
-    return DateTime->new(
+    return $class->_new(
         %p,
         month => $month,
         day   => $day,
@@ -1927,7 +1950,7 @@ sub set_formatter  { $_[0]->set( formatter  => $_[1] ) }
             }
         }
 
-        my $new_dt = $self->_new_from_self(%new);
+        my $new_dt = $self->_new_from_self( %new, _skip_validation => 1 );
 
         %$self = %$new_dt;
 
@@ -2049,7 +2072,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.63
+version 0.64
 
 =head1 SYNOPSIS
 
@@ -2131,7 +2154,7 @@ DateTime is a class for the representation of date/time combinations,
 and is part of the Perl DateTime project.  For details on this project
 please see L<http://datetime.perl.org/>.  The DateTime site has a FAQ
 which may help answer many "how do I do X?" questions.  The FAQ is at
-L<http://datetime.perl.org/?FAQ>.
+L<http://datetime.perl.org/wiki/datetime/page/FAQ>.
 
 It represents the Gregorian calendar, extended backwards in time
 before its creation (in 1582).  This is sometimes known as the
@@ -3985,10 +4008,58 @@ The time zone long name.
 
 =back
 
-=head1 DateTime.pm and Storable
+=head2 DateTime.pm and Storable
 
 DateTime implements Storable hooks in order to reduce the size of a
 serialized DateTime object.
+
+=head1 THE DATETIME PROJECT ECOSYSTEM
+
+This module is part of a larger ecosystem of modules in the DateTime
+family.
+
+=head2 L<DateTime::Set>
+
+The L<DateTime::Set> module represents sets (including recurrences) of
+datetimes. Many modules return sets or recurrences.
+
+=head2 Format Modules
+
+The various format modules exist to parse and format datetimes. For example,
+L<DateTime::Format::HTTP> parses dates according to the RFC 1123 format:
+
+  my $datetime
+      = DateTime::Format::HTTP->parse_datetime('Thu Feb  3 17:03:55 GMT 1994');
+
+  print DateTime::Format::HTTP->format_datetime($datetime);
+
+Most format modules are suitable for use as a C<formatter> with a DateTime
+object.
+
+All format modules start with C<DateTime::Format::>.
+
+=head2 Calendar Modules
+
+There are a number of modules on CPAN that implement non-Gregorian calendars,
+such as the Chinese, Mayan, and Julian calendars.
+
+All calendar modules start with C<DateTime::Calendar::>.
+
+=head2 Event Modules
+
+There are a number of modules that calculate the dates for events, such as
+Easter, Sunrise, etc.
+
+All event modules start with C<DateTime::Event::>.
+
+=head2 Others
+
+There are many other modules that work with DateTime, including modules in the
+C<DateTimeX> namespace, as well as others.
+
+See the L<datetime wiki|http://datetime.perl.org> and
+L<search.cpan.org|http://search.cpan.org/search?query=datetime&mode=dist> for
+more details.
 
 =head1 KNOWN BUGS
 
@@ -3998,12 +4069,12 @@ handling of IEEE infinity and NaN, and seems to be highly
 platform/compiler/phase of moon dependent.
 
 If you don't plan to use infinite datetimes you can probably ignore
-this.  This will be fixed (somehow) in future versions.
+this. This will be fixed (perhaps) in future versions.
 
 =head1 SUPPORT
 
-Support for this module is provided via the datetime@perl.org email
-list. See http://datetime.perl.org/?MailingList for details.
+Support for this module is provided via the datetime@perl.org email list. See
+http://datetime.perl.org/wiki/datetime/page/Mailing_List for details.
 
 Please submit bugs to the CPAN RT system at
 http://rt.cpan.org/NoAuth/ReportBug.html?Queue=datetime or via email
@@ -4038,7 +4109,7 @@ http://datetime.perl.org/
 
 =head1 AUTHOR
 
-  Dave Rolsky <autarch@urth.org>
+Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 

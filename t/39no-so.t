@@ -7,17 +7,20 @@ use Test::More;
 
 no warnings 'once', 'redefine';
 
-my $sub
-    = sub { die q{Can't locate loadable object for module DateTime in @INC} };
+require XSLoader;
 
-if ( $] >= 5.006 ) {
-    require XSLoader;
-    *XSLoader::load = $sub;
-}
-else {
-    require DynaLoader;
-    *DynaLoader::bootstrap = $sub;
-}
+my $orig = \&XSLoader::load;
+
+my $sub = sub {
+    if ( $_[0] eq 'DateTime' ) {
+        die q{Can't locate loadable object for module DateTime in @INC};
+    }
+    else {
+        goto $orig;
+    }
+};
+
+*XSLoader::load = $sub;
 
 eval { require DateTime };
 is( $@, '', 'No error loading DateTime without DateTime.so file' );

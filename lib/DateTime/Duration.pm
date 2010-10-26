@@ -317,7 +317,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.63
+version 0.64
 
 =head1 SYNOPSIS
 
@@ -608,7 +608,7 @@ http://datetime.perl.org/
 
 =head1 AUTHOR
 
-  Dave Rolsky <autarch@urth.org>
+Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
