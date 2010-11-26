@@ -1,6 +1,6 @@
 package DateTime::LeapSecond;
 BEGIN {
-  $DateTime::LeapSecond::VERSION = '0.65';
+  $DateTime::LeapSecond::VERSION = '0.66';
 }
 
 use strict;
@@ -130,7 +130,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 0.65
+version 0.66
 
 =head1 SYNOPSIS
 
@@ -144,7 +144,7 @@ version 0.65
 =head1 DESCRIPTION
 
 This module is used to calculate leap seconds for a given Rata Die
-day.  It is used when DateTime.pm cannot compile the XS version of
+day. It is used when DateTime.pm cannot compile the XS version of
 this code.
 
 This library is known to be accurate for dates until December 2009.
