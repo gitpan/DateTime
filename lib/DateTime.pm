@@ -1,15 +1,16 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.66';
+  $DateTime::VERSION = '0.67';
 }
 
-use 5.006;
+use 5.008001;
 
 use strict;
 use warnings;
 
 use Carp;
 use DateTime::Helpers;
+use Math::Round qw( nearest round );
 
 BEGIN {
     my $loaded = 0;
@@ -200,7 +201,9 @@ sub new {
 
     Carp::croak(
         "Invalid day of month (day = $p{day} - month = $p{month} - year = $p{year})\n"
-    ) if $p{day} > $class->_month_length( $p{year}, $p{month} );
+        )
+        if $p{day} > 28
+            && $p{day} > $class->_month_length( $p{year}, $p{month} );
 
     return $class->_new(%p);
 }
@@ -620,18 +623,20 @@ sub from_day_of_year {
     my $class = shift;
     my %p = validate( @_, $FromDayOfYearValidate );
 
-    my $is_leap_year = $class->_is_leap_year( $p{year} );
-
     Carp::croak("$p{year} is not a leap year.\n")
-        if $p{day_of_year} == 366 && !$is_leap_year;
+        if $p{day_of_year} == 366 && !$class->_is_leap_year( $p{year} );
 
     my $month = 1;
     my $day   = delete $p{day_of_year};
 
-    while ( $month <= 12 && $day > $class->_month_length( $p{year}, $month ) )
-    {
-        $day -= $class->_month_length( $p{year}, $month );
-        $month++;
+    if ( $day > 31 ) {
+        my $length = $class->_month_length( $p{year}, $month );
+
+        while ( $day > $length ) {
+            $day -= $length;
+            $month++;
+            $length = $class->_month_length( $p{year}, $month );
+        }
     }
 
     return $class->_new(
@@ -819,16 +824,9 @@ sub nanosecond {
     return $_[0]->{rd_nanosecs};
 }
 
-sub millisecond { _round( $_[0]->{rd_nanosecs} / 1000000 ) }
+sub millisecond { round( $_[0]->{rd_nanosecs} / 1000000 ) }
 
-sub microsecond { _round( $_[0]->{rd_nanosecs} / 1000 ) }
-
-sub _round {
-    my $val = shift;
-    my $int = int $val;
-
-    return $val - $int >= 0.5 ? $int + 1 : $int;
-}
+sub microsecond { round( $_[0]->{rd_nanosecs} / 1000 ) }
 
 sub leap_seconds {
     my $self = shift;
@@ -896,15 +894,17 @@ sub week {
     return @{ $self->{local_c} }{ 'week_year', 'week_number' };
 }
 
-# Also from DateCalc.c
 sub _weeks_in_year {
     my $self = shift;
     my $year = shift;
 
-    my $jan_one_dow = ( ( $self->_ymd2rd( $year, 1,  1 ) + 6 ) % 7 ) + 1;
-    my $dec_31_dow  = ( ( $self->_ymd2rd( $year, 12, 31 ) + 6 ) % 7 ) + 1;
+    my $dow = $self->_ymd2rd( $year, 1, 1 ) % 7;
 
-    return $jan_one_dow == 4 || $dec_31_dow == 4 ? 53 : 52;
+    # Tears starting with a Thursday and leap years starting with a Wednesday
+    # have 53 weeks.
+    return ( $dow == 4 || ( $dow == 3 && $self->_is_leap_year($year) ) )
+        ? 53
+        : 52;
 }
 
 sub week_year   { ( $_[0]->week )[0] }
@@ -913,18 +913,10 @@ sub week_number { ( $_[0]->week )[1] }
 # ISO says that the first week of a year is the first week containing
 # a Thursday. Extending that says that the first week of the month is
 # the first week containing a Thursday. ICU agrees.
-#
-# Algorithm supplied by Rick Measham, who doesn't understand how it
-# works. Neither do I. Please feel free to explain this to me!
 sub week_of_month {
     my $self = shift;
-
-    # Faster than cloning just to get the dow
-    my $first_wday_of_month = ( 8 - ( $self->day - $self->dow ) % 7 ) % 7;
-    $first_wday_of_month = 7 unless $first_wday_of_month;
-
-    my $wom = int( ( $self->day + $first_wday_of_month - 2 ) / 7 );
-    return ( $first_wday_of_month <= 4 ) ? $wom + 1 : $wom;
+    my $thu  = $self->day + 4 - $self->day_of_week;
+    return int( ( $thu + 6 ) / 7 );
 }
 
 sub time_zone {
@@ -1016,13 +1008,9 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         't' => sub {"\t"},
         'T' => sub { $_[0]->strftime('%H:%M:%S') },
         'u' => sub { $_[0]->day_of_week },
-
-        # algorithm from Date::Format::wkyr
         'U' => sub {
-            my $dow = $_[0]->day_of_week;
-            $dow = 0 if $dow == 7;    # convert to 0-6, Sun-Sat
-            my $doy = $_[0]->day_of_year - 1;
-            return sprintf( '%02d', int( ( $doy - $dow + 13 ) / 7 - 1 ) );
+            my $sun = $_[0]->day_of_year - ( $_[0]->day_of_week + 7 ) % 7;
+            return sprintf( '%02d', int( ( $sun + 6 ) / 7 ) );
         },
         'V' => sub { sprintf( '%02d', $_[0]->week_number ) },
         'w' => sub {
@@ -1030,9 +1018,8 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
             return $dow % 7;
         },
         'W' => sub {
-            my $dow = $_[0]->day_of_week;
-            my $doy = $_[0]->day_of_year - 1;
-            return sprintf( '%02d', int( ( $doy - $dow + 13 ) / 7 - 1 ) );
+            my $mon = $_[0]->day_of_year - ( $_[0]->day_of_week + 6 ) % 7;
+            return sprintf( '%02d', int( ( $mon + 6 ) / 7 ) );
         },
         'x' => sub {
             $_[0]->format_cldr( $_[0]->{locale}->date_format_default() );
@@ -1310,17 +1297,12 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
 }
 
 sub _format_nanosecs {
-    my $self      = shift;
-    my $precision = shift;
+    my $self = shift;
+    my $precision = @_ ? shift : 9;
 
-    my $ret = sprintf( "%09d", $self->{rd_nanosecs} );
-    return $ret unless $precision;    # default = 9 digits
+    my $divide_by = 10**( 9 - $precision );
 
-    # rd_nanosecs might contain a fractional separator
-    my ( $int, $frac ) = split /[.,]/, $self->{rd_nanosecs};
-    $ret .= $frac if $frac;
-
-    return substr( $ret, 0, $precision );
+    return round( $self->{rd_nanosecs} / $divide_by );
 }
 
 sub epoch {
@@ -2057,7 +2039,7 @@ sub STORABLE_thaw {
 
 package DateTime::_Thawed;
 BEGIN {
-  $DateTime::_Thawed::VERSION = '0.66';
+  $DateTime::_Thawed::VERSION = '0.67';
 }
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
@@ -2078,7 +2060,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.66
+version 0.67
 
 =head1 SYNOPSIS
 
@@ -2236,8 +2218,8 @@ datetimes.
 
 =head2 Math
 
-If you are going to be using doing date math, please read the section
-L<How Datetime Math is Done>.
+If you are going to be using doing date math, please read the section L<How
+Datetime Math Works>.
 
 =head2 Time Zone Warnings
 
@@ -3844,12 +3826,12 @@ The time zone long name.
 
 =item * Z{1,3}
 
-The time zone short name and the offset as one string, so something
-like "CDT-0500".
+The time zone offset.
 
 =item * ZZZZ
 
-The time zone long name.
+The time zone short name and the offset as one string, so something
+like "CDT-0500".
 
 =item * v{1,3}
 
@@ -4146,8 +4128,8 @@ Support for this module is provided via the datetime@perl.org email list. See
 http://datetime.perl.org/wiki/datetime/page/Mailing_List for details.
 
 Please submit bugs to the CPAN RT system at
-http://rt.cpan.org/NoAuth/ReportBug.html?Queue=datetime or via email
-at bug-datetime@rt.cpan.org.
+http://rt.cpan.org/NoAuth/Bugs.html?Dist=DateTime or via email at
+bug-datetime@rt.cpan.org.
 
 =head1 DONATIONS
 
@@ -4182,11 +4164,11 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2010 by Dave Rolsky.
+This software is Copyright (c) 2011 by Dave Rolsky.
 
 This is free software, licensed under:
 
-  The Artistic License 2.0
+  The Artistic License 2.0 (GPL Compatible)
 
 =cut
 

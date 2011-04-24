@@ -1,6 +1,6 @@
 package DateTime::Duration;
 BEGIN {
-  $DateTime::Duration::VERSION = '0.66';
+  $DateTime::Duration::VERSION = '0.67';
 }
 
 use strict;
@@ -318,13 +318,13 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.66
+version 0.67
 
 =head1 SYNOPSIS
 
   use DateTime::Duration;
 
-  $d = DateTime::Duration->new(
+  $dur = DateTime::Duration->new(
       years       => 3,
       months      => 5,
       weeks       => 1,
@@ -335,28 +335,27 @@ version 0.66
       nanoseconds => 12000
   );
 
-  # Convert to different units
-  $d->in_units('days', 'hours', 'seconds');
+  my ( $days, $hours, $seconds ) = $dur->in_units('days', 'hours', 'seconds');
 
   # Human-readable accessors, always positive, but consider using
   # DateTime::Format::Duration instead
-  $d->years;
-  $d->months;
-  $d->weeks;
-  $d->days;
-  $d->hours;
-  $d->minutes;
-  $d->seconds;
-  $d->nanoseconds;
+  $dur->years;
+  $dur->months;
+  $dur->weeks;
+  $dur->days;
+  $dur->hours;
+  $dur->minutes;
+  $dur->seconds;
+  $dur->nanoseconds;
 
-  $d->is_wrap_mode
-  $d->is_limit_mode
-  $d->is_preserve_mode
+  $dur->is_wrap_mode
+  $dur->is_limit_mode
+  $dur->is_preserve_mode
 
-  print $d->end_of_month_mode;
+  print $dur->end_of_month_mode;
 
-  # Multiple all deltas by -1
-  my $opposite = $d->inverse;
+  # Multiply all values by -1
+  my $opposite = $dur->inverse;
 
   my $bigger  = $dur1 + $dur2;
   my $smaller = $dur1 - $dur2; # the result could be negative
@@ -366,9 +365,9 @@ version 0.66
   my @sorted =
       sort { DateTime::Duration->compare( $a, $b, $base_dt ) } @durations;
 
-  if ( $d->is_positive ) { ... }
-  if ( $d->is_zero )     { ... }
-  if ( $d->is_negative ) { ... }
+  if ( $dur->is_positive ) { ... }
+  if ( $dur->is_zero )     { ... }
+  if ( $dur->is_negative ) { ... }
 
 =head1 DESCRIPTION
 
@@ -461,8 +460,8 @@ conversions possible are:
 
 =back
 
-For the explanation of why this happens, please see the L<How Datetime Math
-Works|DateTime/"How DateTime Math Works"> section of the DateTime.pm
+For the explanation of why this is the case, please see the L<How Datetime
+Math Works|DateTime/"How DateTime Math Works"> section of the DateTime.pm
 documentation
 
 Note that the numbers returned by this method may not match the values
@@ -607,11 +606,11 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2010 by Dave Rolsky.
+This software is Copyright (c) 2011 by Dave Rolsky.
 
 This is free software, licensed under:
 
-  The Artistic License 2.0
+  The Artistic License 2.0 (GPL Compatible)
 
 =cut
 

@@ -22,7 +22,7 @@ my %module_build_args = (
     'Dave Rolsky <autarch@urth.org>'
   ],
   'dist_name' => 'DateTime',
-  'dist_version' => '0.66',
+  'dist_version' => '0.67',
   'license' => 'artistic_2',
   'module_name' => 'DateTime',
   'recommends' => {},
@@ -30,9 +30,11 @@ my %module_build_args = (
   'requires' => {
     'DateTime::Locale' => '0.41',
     'DateTime::TimeZone' => '1.09',
+    'Math::Round' => '0',
     'Params::Validate' => '0.76',
     'Scalar::Util' => '0',
-    'Time::Local' => '1.04'
+    'Time::Local' => '1.04',
+    'perl' => 'v5.8.1'
   },
   'script_files' => []
 );

@@ -4,7 +4,7 @@
       "Dave Rolsky <autarch@urth.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.102345, CPAN::Meta::Converter version 2.101670",
+   "generated_by" : "Dist::Zilla version 4.200004, CPAN::Meta::Converter version 2.110580",
    "license" : [
       "artistic_2"
    ],
@@ -32,9 +32,11 @@
          "requires" : {
             "DateTime::Locale" : "0.41",
             "DateTime::TimeZone" : "1.09",
+            "Math::Round" : 0,
             "Params::Validate" : "0.76",
             "Scalar::Util" : 0,
-            "Time::Local" : "1.04"
+            "Time::Local" : "1.04",
+            "perl" : "v5.8.1"
          }
       }
    },
@@ -50,6 +52,6 @@
          "web" : "http://hg.urth.org/hg/DateTime.pm"
       }
    },
-   "version" : "0.66"
+   "version" : "0.67"
 }
 

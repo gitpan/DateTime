@@ -1,6 +1,6 @@
 package DateTime::LeapSecond;
 BEGIN {
-  $DateTime::LeapSecond::VERSION = '0.66';
+  $DateTime::LeapSecond::VERSION = '0.67';
 }
 
 use strict;
@@ -130,7 +130,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 0.66
+version 0.67
 
 =head1 SYNOPSIS
 
@@ -138,8 +138,8 @@ version 0.66
   use DateTime::LeapSecond;
 
   print "Leap seconds between years 1990 and 2000 are ";
-  print Date::Leapsecond::leap_seconds( $utc_rd_2000 ) -
-        Date::Leapsecond::leap_seconds( $utc_rd_1990 );
+  print DateTime::Leapsecond::leap_seconds( $utc_rd_2000 ) -
+        DateTime::Leapsecond::leap_seconds( $utc_rd_1990 );
 
 =head1 DESCRIPTION
 
@@ -183,11 +183,11 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2010 by Dave Rolsky.
+This software is Copyright (c) 2011 by Dave Rolsky.
 
 This is free software, licensed under:
 
-  The Artistic License 2.0
+  The Artistic License 2.0 (GPL Compatible)
 
 =cut
 

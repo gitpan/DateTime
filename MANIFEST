@@ -68,12 +68,12 @@ t/42duration-class.t
 t/43new-params.t
 t/44set-formatter.t
 t/author-test-all-my-deps.t
+t/release-cpan-changes.t
 t/release-eol.t
-t/release-kwalitee.t
 t/release-no-tabs.t
 t/release-pod-coverage.t
 t/release-pod-spell.t
-t/release-pod.t
+t/release-pod-syntax.t
 t/release-pp-00load.t
 t/release-pp-01sanity.t
 t/release-pp-02last-day.t
