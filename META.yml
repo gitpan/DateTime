@@ -28,4 +28,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=DateTime
   repository: http://hg.urth.org/hg/DateTime.pm
-version: 0.67
+version: 0.68

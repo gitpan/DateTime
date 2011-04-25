@@ -1,6 +1,6 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.67';
+  $DateTime::VERSION = '0.68';
 }
 
 use 5.008001;
@@ -489,16 +489,17 @@ sub _utc_hms {
         my %p = validate( @_, $spec );
 
         my %args;
+        # Epoch may come from Time::HiRes, so it may not be an integer.
+        my ( $int, $dec ) = $p{epoch} =~ /^(-?\d+)?(\.\d+)?/;
+        $int ||= 0;
 
-        # Because epoch may come from Time::HiRes
-        my $fraction = $p{epoch} - int( $p{epoch} );
-        $args{nanosecond} = int( $fraction * MAX_NANOSECONDS )
-            if $fraction;
+        $args{nanosecond} = int( $dec * MAX_NANOSECONDS )
+            if $dec;
 
         # Note, for very large negative values this may give a
         # blatantly wrong answer.
         @args{qw( second minute hour day month year )}
-            = ( gmtime( int delete $p{epoch} ) )[ 0 .. 5 ];
+            = ( gmtime($int) )[ 0 .. 5 ];
         $args{year} += 1900;
         $args{month}++;
 
@@ -2039,7 +2040,7 @@ sub STORABLE_thaw {
 
 package DateTime::_Thawed;
 BEGIN {
-  $DateTime::_Thawed::VERSION = '0.67';
+  $DateTime::_Thawed::VERSION = '0.68';
 }
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
@@ -2060,7 +2061,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.67
+version 0.68
 
 =head1 SYNOPSIS
 
