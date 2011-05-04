@@ -58,7 +58,6 @@ t/33seconds-offset.t
 t/34set-tz.t
 t/35rd-values.t
 t/36invalid-local.t
-t/36invalid_local.t
 t/37local-add.t
 t/38local-subtract.t
 t/39no-so.t
@@ -109,7 +108,6 @@ t/release-pp-33seconds-offset.t
 t/release-pp-34set-tz.t
 t/release-pp-35rd-values.t
 t/release-pp-36invalid-local.t
-t/release-pp-36invalid_local.t
 t/release-pp-37local-add.t
 t/release-pp-38local-subtract.t
 t/release-pp-40leap-years.t
