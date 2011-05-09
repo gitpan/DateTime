@@ -7,9 +7,7 @@ use Module::Build 0.3601;
 
 my %module_build_args = (
   'build_requires' => {
-    'ExtUtils::CBuilder' => '0',
     'Module::Build' => '0.3601',
-    'Pod::Man' => '1.14',
     'Test::Exception' => '0',
     'Test::More' => '0.88'
   },
@@ -22,7 +20,7 @@ my %module_build_args = (
     'Dave Rolsky <autarch@urth.org>'
   ],
   'dist_name' => 'DateTime',
-  'dist_version' => '0.69',
+  'dist_version' => '0.70',
   'license' => 'artistic_2',
   'module_name' => 'DateTime',
   'recommends' => {},

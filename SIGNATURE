@@ -14,29 +14,29 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 3de2505fcdb67ce87c9aba585fd0d687aca24919 Build.PL
+SHA1 0a3451fc994019d19536fdba17727410b2eeb24d Build.PL
 SHA1 c951898b770a16da2897d908ab6f9f72057bd570 CREDITS
-SHA1 ccda75458a2d4b92cbf1f5a18ece4c71ee540b3f Changes
+SHA1 0e36d3a4398fa8e89f78925b93f5d13e1f922d92 Changes
 SHA1 c5f2b8434452ecd4c943c59ae2a95abb9d75332d INSTALL
 SHA1 c715d20265d2931c7564fc64abfdc4f8ff33e297 LICENSE
 SHA1 7b4605ca7b50ec52d5a3876ecdf3a932bf6ad709 MANIFEST
-SHA1 70d8a731e6d3b23b15729a573a9ece3c56c4077d META.json
-SHA1 692c9e0b8c636262c56bab7c681ecc1cf228a744 META.yml
-SHA1 600a257c6373abba1e1ddbd6fbf20deff06cd071 README
+SHA1 f82f10f2b49abb5000901de762bd10f51e8aa547 META.json
+SHA1 c53869fa33abbf3be84ad0ce1d5f562e10dba47d META.yml
+SHA1 c0c3277fa94a0dc9dffa0cc30c76fddaf5e01ff4 README
 SHA1 bfc70fbe8fa29484452bea8c2ed4afd55218f2c2 TODO
 SHA1 b67b906c9fbaab9ccac635d623cb4e6064feb8f0 c/leap_seconds.h
 SHA1 4cd12d2a050ab038e519bd1391f77855ba4b24ac c/ppport.h
-SHA1 5f6474faad44c3330746746250a6e9a99092e216 dist.ini
+SHA1 af7cce335b58fd58894c3456a10ccee554f991ff dist.ini
 SHA1 2d1f339f1a2ceb22c2657d7c21983f69bc7456e3 inc/MyModuleBuild.pm
 SHA1 ad083d04f765963b707dab9d566bf17e92fa51e9 leaptab.txt
-SHA1 27bfaa62dc8ddfaa5922122fb7290a653294f268 lib/DateTime.pm
+SHA1 6f23637bfd5585155ca30f965d6c171a868d614b lib/DateTime.pm
 SHA1 d2c3464984dc7567d8ef825a80fc4d5ed3602d0a lib/DateTime.xs
-SHA1 ae7f4b970ff8ed1782538a682f398e68aae052f6 lib/DateTime/Duration.pm
-SHA1 f2373aff745c007e222ba26c2605ccf7f0d02771 lib/DateTime/Helpers.pm
-SHA1 0c7e99965db72bdfbbae119746f3e3d7dbee1d55 lib/DateTime/Infinite.pm
-SHA1 b1a9eba5d4ea408c5f219dc93a97812c838191c7 lib/DateTime/LeapSecond.pm
-SHA1 f2995138dc8cdd21f3ae57027cbcce755c781e87 lib/DateTimePP.pm
-SHA1 6ccf6914088f63c2cfe4e0117965f4be76ca043c lib/DateTimePPExtra.pm
+SHA1 f3362a5be45d072e60b2134daebd9007faf7238d lib/DateTime/Duration.pm
+SHA1 a830a19fce7003ad95d14190b28bff8495555eaa lib/DateTime/Helpers.pm
+SHA1 3434c69eddd304082551c77efd7071d73bf68e39 lib/DateTime/Infinite.pm
+SHA1 c7ad19ac420dab0a860b6b47c9daf7bed3df36b7 lib/DateTime/LeapSecond.pm
+SHA1 fcbecc2737ebd429ad1e9f1f9beb030c4361e6e4 lib/DateTimePP.pm
+SHA1 5b44548c88c6b06bc42153584ee2ed0ec448971b lib/DateTimePPExtra.pm
 SHA1 b7d12ae6a374c314afcf6ee289a1ae309d8a8563 t/00load.t
 SHA1 53ac3a3da64401a86b06ed6dbcc1af01ba7741dd t/01sanity.t
 SHA1 1ced0f94d405f32f687b5a86c245774fabb44b40 t/02last-day.t
@@ -49,7 +49,7 @@ SHA1 53203ac23b6ea91a678748b7c7143bba1189ed25 t/09greg.t
 SHA1 2b6582dbdcc95a3a8c928da233d3c9cefa8193ef t/10subtract.t
 SHA1 26ba2f29d7b049dd1f58cdd25f91d919263b9008 t/11duration.t
 SHA1 9c04679ba62e41c5c0d28fbf5dbc94536827fe65 t/12week.t
-SHA1 ab69254a51e4df66bc8dcac00a2e2e44b064f233 t/13strftime.t
+SHA1 a56cc43cbaccad60ba89897c64bf94e1f3140da5 t/13strftime.t
 SHA1 5a8e5f135d1735c25981b73ce06fd68296372405 t/14locale.t
 SHA1 31d4392975a4d13e6c10145b9e63b4c45350c148 t/15jd.t
 SHA1 78fd6143e323413681f73d94f68382c257f7b67e t/16truncate.t
@@ -100,7 +100,7 @@ SHA1 8a8539c137e4c1ba1f020c485ab744b3265165e0 t/release-pp-09greg.t
 SHA1 ba80cd8fcdb2aa0cedb2a057053d19667e9471aa t/release-pp-10subtract.t
 SHA1 4773be589e9b5406377527e9525d8450e04d5e73 t/release-pp-11duration.t
 SHA1 e69c9d656b6462e7d52bba196ce6f6e878798a59 t/release-pp-12week.t
-SHA1 7f0a1d40a1d509456c9063afa1d009fdc444c376 t/release-pp-13strftime.t
+SHA1 4ed59bb28d7cb6cb2659aba8fd30be3698823fdb t/release-pp-13strftime.t
 SHA1 b7e108865965a5a16d2b64677c7d1d3a9ee1ff03 t/release-pp-14locale.t
 SHA1 585ac7a24117d215cdbf37c211b62dc8a95f6c0c t/release-pp-15jd.t
 SHA1 0c18ef64cdefdd559e24a344868c62439d471ff9 t/release-pp-16truncate.t
@@ -134,7 +134,7 @@ SHA1 bef3937eb875e25c0fb9c95597b2a7628eb65020 tools/leap_seconds_header.pl
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.11 (GNU/Linux)
 
-iEYEARECAAYFAk3Ay98ACgkQIgMCsV8qvRLcJQCePvBkkCTu/kbzoWsB0p0xePMb
-dhIAn2N0AAHlXQFzgBAth30vYfR/OjwF
-=64Hr
+iEYEARECAAYFAk3IOkAACgkQIgMCsV8qvRKz3QCaA4xP/vRW2l9eoS7fW1oRkfY0
+w1cAn2kU5PjBkbcLEZTZfT/ABCCwbwDE
+=hwC2
 -----END PGP SIGNATURE-----

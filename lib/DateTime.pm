@@ -1,6 +1,6 @@
 package DateTime;
 BEGIN {
-  $DateTime::VERSION = '0.69';
+  $DateTime::VERSION = '0.70';
 }
 
 use 5.008001;
@@ -1301,14 +1301,12 @@ sub _format_nanosecs {
     my $self = shift;
     my $precision = @_ ? shift : 9;
 
-    if ( $self->{rd_nanosecs} ) {
-        my $divide_by = 10**( 9 - $precision );
+    my $divide_by = 10**( 9 - $precision );
 
-        return round( $self->{rd_nanosecs} / $divide_by );
-    }
-    else {
-        return '0' x $precision;
-    }
+    return sprintf(
+        '%0' . $precision . 'u',
+        round( $self->{rd_nanosecs} / $divide_by )
+    );
 }
 
 sub epoch {
@@ -2045,7 +2043,7 @@ sub STORABLE_thaw {
 
 package DateTime::_Thawed;
 BEGIN {
-  $DateTime::_Thawed::VERSION = '0.69';
+  $DateTime::_Thawed::VERSION = '0.70';
 }
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
@@ -2066,7 +2064,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.69
+version 0.70
 
 =head1 SYNOPSIS
 

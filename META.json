@@ -16,11 +16,7 @@
    "prereqs" : {
       "build" : {
          "requires" : {
-            "ExtUtils::CBuilder" : 0,
-            "Module::Build" : "0.3601",
-            "Pod::Man" : "1.14",
-            "Test::Exception" : 0,
-            "Test::More" : "0.88"
+            "Module::Build" : "0.3601"
          }
       },
       "configure" : {
@@ -38,6 +34,12 @@
             "Time::Local" : "1.04",
             "perl" : "v5.8.1"
          }
+      },
+      "test" : {
+         "requires" : {
+            "Test::Exception" : 0,
+            "Test::More" : "0.88"
+         }
       }
    },
    "release_status" : "stable",
@@ -52,6 +54,6 @@
          "web" : "http://hg.urth.org/hg/DateTime.pm"
       }
    },
-   "version" : "0.69"
+   "version" : "0.70"
 }
 
