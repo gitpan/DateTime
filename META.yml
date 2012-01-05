@@ -6,7 +6,6 @@ build_requires:
   Cwd: 0
   Module::Build: 0.3601
   Storable: 0
-  Test::DependentModules: 0
   Test::Fatal: 0
   Test::More: 0.88
   utf8: 0
@@ -39,4 +38,4 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=DateTime
   repository: git://git.urth.org/DateTime.pm.git
-version: 0.71
+version: 0.72

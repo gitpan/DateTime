@@ -10,7 +10,6 @@ my %module_build_args = (
     "Cwd" => 0,
     "Module::Build" => "0.3601",
     "Storable" => 0,
-    "Test::DependentModules" => 0,
     "Test::Fatal" => 0,
     "Test::More" => "0.88",
     "utf8" => 0
@@ -24,7 +23,7 @@ my %module_build_args = (
     "Dave Rolsky <autarch\@urth.org>"
   ],
   "dist_name" => "DateTime",
-  "dist_version" => "0.71",
+  "dist_version" => "0.72",
   "license" => "artistic_2",
   "module_name" => "DateTime",
   "recommends" => {},
