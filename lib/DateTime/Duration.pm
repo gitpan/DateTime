@@ -1,6 +1,6 @@
 package DateTime::Duration;
-BEGIN {
-  $DateTime::Duration::VERSION = '0.70';
+{
+  $DateTime::Duration::VERSION = '0.71';
 }
 
 use strict;
@@ -318,7 +318,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.70
+version 0.71
 
 =head1 SYNOPSIS
 
@@ -433,7 +433,7 @@ this method was called.
 =item * in_units( ... )
 
 Returns the length of the duration in the units (any of those that can
-be passed to L<new>) given as arguments. All lengths are integral,
+be passed to C<new>) given as arguments. All lengths are integral,
 but may be negative. Smaller units are computed from what remains
 after taking away the larger units given, so for example:
 
@@ -606,7 +606,7 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2011 by Dave Rolsky.
+This software is Copyright (c) 2012 by Dave Rolsky.
 
 This is free software, licensed under:
 

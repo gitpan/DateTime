@@ -1,6 +1,6 @@
 package DateTime::LeapSecond;
-BEGIN {
-  $DateTime::LeapSecond::VERSION = '0.70';
+{
+  $DateTime::LeapSecond::VERSION = '0.71';
 }
 
 use strict;
@@ -111,6 +111,7 @@ sub _initialize {
             1999  Jan. 1  +1
             2006  Jan. 1  +1
             2009  Jan. 1  +1
+            2012  Jun. 1  +1
             )
     );
 }
@@ -130,7 +131,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 0.70
+version 0.71
 
 =head1 SYNOPSIS
 
@@ -183,7 +184,7 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2011 by Dave Rolsky.
+This software is Copyright (c) 2012 by Dave Rolsky.
 
 This is free software, licensed under:
 

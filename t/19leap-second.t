@@ -1,6 +1,7 @@
 use strict;
 use warnings;
 
+use Test::Fatal;
 use Test::More;
 use DateTime;
 
@@ -154,8 +155,10 @@ use DateTime;
             time_zone => '-0100',
         );
 
-        is( $t->second, 60,
-            'second set to 60 in constructor, negative TZ offset' );
+        is(
+            $t->second, 60,
+            'second set to 60 in constructor, negative TZ offset'
+        );
     };
 
     if ($@) {
@@ -172,12 +175,15 @@ use DateTime;
             time_zone => '+0100',
         );
 
-        is( $t->second, 60,
-            'second set to 60 in constructor, positive TZ offset' );
+        is(
+            $t->second, 60,
+            'second set to 60 in constructor, positive TZ offset'
+        );
     };
 
     if ($@) {
-        ok( 0,
+        ok(
+            0,
             "Error setting second to 60 in constructor, positive TZ offset: $@"
         );
     }
@@ -220,8 +226,10 @@ use DateTime;
         time_zone => '+00:00:30',
     );
 
-    is( $t->second, 29,
-        'time zone +00:00:30 and leap seconds, second value' );
+    is(
+        $t->second, 29,
+        'time zone +00:00:30 and leap seconds, second value'
+    );
     is( $t->minute, 0, 'time zone +00:00:30 and leap seconds, minute value' );
 }
 
@@ -259,8 +267,10 @@ use DateTime;
         time_zone => 'UTC',
     );
 
-    is( $t->epoch, 78796799,
-        'epoch just before first leap second is 78796799' );
+    is(
+        $t->epoch, 78796799,
+        'epoch just before first leap second is 78796799'
+    );
 
     $t->add( seconds => 1 );
 
@@ -268,8 +278,10 @@ use DateTime;
 
     $t->add( seconds => 1 );
 
-    is( $t->epoch, 78796800,
-        'epoch of first second after first leap second is 78796700' );
+    is(
+        $t->epoch, 78796800,
+        'epoch of first second after first leap second is 78796700'
+    );
 }
 
 {
@@ -456,8 +468,10 @@ use DateTime;
 
     is( $pos_dur->delta_minutes, 0,  'delta_minutes is 0' );
     is( $pos_dur->delta_seconds, 60, 'delta_seconds is 60' );
-    is( $pos_dur->delta_nanoseconds, 999999999,
-        'delta_nanoseconds is 999...' );
+    is(
+        $pos_dur->delta_nanoseconds, 999999999,
+        'delta_nanoseconds is 999...'
+    );
 }
 
 {
@@ -469,8 +483,10 @@ use DateTime;
 
     $dt->add( days => 2 );
 
-    is( $dt->datetime, '1972-07-02T23:58:20',
-        "add two days crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-07-02T23:58:20',
+        "add two days crossing a leap second (UTC)"
+    );
 }
 
 # a bunch of tests that math works across a leap second for various time zones
@@ -483,8 +499,10 @@ use DateTime;
 
     $dt->add( days => 2 );
 
-    is( $dt->datetime, '1972-07-02T20:58:20',
-        "add two days crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-07-02T20:58:20',
+        "add two days crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -496,8 +514,10 @@ use DateTime;
 
     $dt->add( days => 2 );
 
-    is( $dt->datetime, '1972-07-03T02:58:20',
-        "add two days crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-03T02:58:20',
+        "add two days crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -509,8 +529,10 @@ use DateTime;
 
     $dt->add( hours => 48 );
 
-    is( $dt->datetime, '1972-07-02T23:58:20',
-        "add 48 hours crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-07-02T23:58:20',
+        "add 48 hours crossing a leap second (UTC)"
+    );
 }
 
 {
@@ -522,8 +544,10 @@ use DateTime;
 
     $dt->add( hours => 48 );
 
-    is( $dt->datetime, '1972-07-02T20:58:20',
-        "add 48 hours crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-07-02T20:58:20',
+        "add 48 hours crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -535,8 +559,10 @@ use DateTime;
 
     $dt->add( hours => 48 );
 
-    is( $dt->datetime, '1972-07-03T02:58:20',
-        "add 48 hours crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-03T02:58:20',
+        "add 48 hours crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -548,8 +574,10 @@ use DateTime;
 
     $dt->add( minutes => 2880 );
 
-    is( $dt->datetime, '1972-07-02T23:58:20',
-        "add 2880 minutes crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-07-02T23:58:20',
+        "add 2880 minutes crossing a leap second (UTC)"
+    );
 }
 
 {
@@ -561,8 +589,10 @@ use DateTime;
 
     $dt->add( minutes => 2880 );
 
-    is( $dt->datetime, '1972-07-02T20:58:20',
-        "add 2880 minutes crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-07-02T20:58:20',
+        "add 2880 minutes crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -574,8 +604,10 @@ use DateTime;
 
     $dt->add( minutes => 2880 );
 
-    is( $dt->datetime, '1972-07-03T02:58:20',
-        "add 2880 minutes crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-03T02:58:20',
+        "add 2880 minutes crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -587,8 +619,10 @@ use DateTime;
 
     $dt->add( seconds => 172801 );
 
-    is( $dt->datetime, '1972-07-02T23:58:20',
-        "add 172801 seconds crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-07-02T23:58:20',
+        "add 172801 seconds crossing a leap second (UTC)"
+    );
 }
 
 {
@@ -600,8 +634,10 @@ use DateTime;
 
     $dt->add( seconds => 172801 );
 
-    is( $dt->datetime, '1972-07-02T20:58:20',
-        "add 172801 seconds crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-07-02T20:58:20',
+        "add 172801 seconds crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -613,8 +649,10 @@ use DateTime;
 
     $dt->add( seconds => 172801 );
 
-    is( $dt->datetime, '1972-07-03T02:58:20',
-        "add 172801 seconds crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-03T02:58:20',
+        "add 172801 seconds crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -626,8 +664,10 @@ use DateTime;
 
     $dt->subtract( days => 2 );
 
-    is( $dt->datetime, '1972-06-30T23:58:20',
-        "subtract two days crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-06-30T23:58:20',
+        "subtract two days crossing a leap second (UTC)"
+    );
 }
 
 {
@@ -639,8 +679,10 @@ use DateTime;
 
     $dt->subtract( days => 2 );
 
-    is( $dt->datetime, '1972-06-30T20:58:20',
-        "subtract two days crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-06-30T20:58:20',
+        "subtract two days crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -652,8 +694,10 @@ use DateTime;
 
     $dt->subtract( days => 2 );
 
-    is( $dt->datetime, '1972-07-01T02:58:20',
-        "subtract two days crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-01T02:58:20',
+        "subtract two days crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -665,8 +709,10 @@ use DateTime;
 
     $dt->subtract( hours => 48 );
 
-    is( $dt->datetime, '1972-06-30T23:58:20',
-        "subtract 48 hours crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-06-30T23:58:20',
+        "subtract 48 hours crossing a leap second (UTC)"
+    );
 }
 
 {
@@ -678,8 +724,10 @@ use DateTime;
 
     $dt->subtract( hours => 48 );
 
-    is( $dt->datetime, '1972-06-30T20:58:20',
-        "subtract 48 hours crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-06-30T20:58:20',
+        "subtract 48 hours crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -691,8 +739,10 @@ use DateTime;
 
     $dt->subtract( hours => 48 );
 
-    is( $dt->datetime, '1972-07-01T02:58:20',
-        "subtract 48 hours crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-01T02:58:20',
+        "subtract 48 hours crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -704,8 +754,10 @@ use DateTime;
 
     $dt->subtract( minutes => 2880 );
 
-    is( $dt->datetime, '1972-06-30T23:58:20',
-        "subtract 2880 minutes crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-06-30T23:58:20',
+        "subtract 2880 minutes crossing a leap second (UTC)"
+    );
 }
 
 {
@@ -717,8 +769,10 @@ use DateTime;
 
     $dt->subtract( minutes => 2880 );
 
-    is( $dt->datetime, '1972-06-30T20:58:20',
-        "subtract 2880 minutes crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-06-30T20:58:20',
+        "subtract 2880 minutes crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -730,8 +784,10 @@ use DateTime;
 
     $dt->subtract( minutes => 2880 );
 
-    is( $dt->datetime, '1972-07-01T02:58:20',
-        "subtract 2880 minutes crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-01T02:58:20',
+        "subtract 2880 minutes crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -743,8 +799,10 @@ use DateTime;
 
     $dt->subtract( seconds => 172801 );
 
-    is( $dt->datetime, '1972-06-30T23:58:20',
-        "subtract 172801 seconds crossing a leap second (UTC)" );
+    is(
+        $dt->datetime, '1972-06-30T23:58:20',
+        "subtract 172801 seconds crossing a leap second (UTC)"
+    );
 }
 
 {
@@ -756,8 +814,10 @@ use DateTime;
 
     $dt->subtract( seconds => 172801 );
 
-    is( $dt->datetime, '1972-06-30T20:58:20',
-        "subtract 172801 seconds crossing a leap second (-0300)" );
+    is(
+        $dt->datetime, '1972-06-30T20:58:20',
+        "subtract 172801 seconds crossing a leap second (-0300)"
+    );
 }
 
 {
@@ -769,8 +829,10 @@ use DateTime;
 
     $dt->subtract( seconds => 172801 );
 
-    is( $dt->datetime, '1972-07-01T02:58:20',
-        "subtract 172801 seconds crossing a leap second (+0300)" );
+    is(
+        $dt->datetime, '1972-07-01T02:58:20',
+        "subtract 172801 seconds crossing a leap second (+0300)"
+    );
 }
 
 {
@@ -782,8 +844,10 @@ use DateTime;
 
     $dt->set_time_zone('-1200');
 
-    is( $dt->datetime, '1972-06-30T12:58:20',
-        "24 hour time zone change near leap second" );
+    is(
+        $dt->datetime, '1972-06-30T12:58:20',
+        "24 hour time zone change near leap second"
+    );
 }
 
 {
@@ -795,8 +859,10 @@ use DateTime;
 
     $dt->set_time_zone('+1200');
 
-    is( $dt->datetime, '1972-07-01T12:58:20',
-        "24 hour time zone change near leap second" );
+    is(
+        $dt->datetime, '1972-07-01T12:58:20',
+        "24 hour time zone change near leap second"
+    );
 }
 
 {
@@ -848,13 +914,17 @@ use DateTime;
         time_zone => '+0100'
     );
 
-    is( $dt->datetime, '1997-07-01T23:59:59',
-        'local time end of leap second day' );
+    is(
+        $dt->datetime, '1997-07-01T23:59:59',
+        'local time end of leap second day'
+    );
 
     $dt->set_time_zone('UTC');
 
-    is( $dt->datetime, '1997-07-01T22:59:59',
-        'UTC time end of leap second day' );
+    is(
+        $dt->datetime, '1997-07-01T22:59:59',
+        'UTC time end of leap second day'
+    );
 }
 
 {
@@ -948,13 +1018,17 @@ use DateTime;
         time_zone => 'UTC'
     );
 
-    is( $dt->datetime, '1997-06-30T23:59:59',
-        'UTC time end of leap second day' );
+    is(
+        $dt->datetime, '1997-06-30T23:59:59',
+        'UTC time end of leap second day'
+    );
 
     $dt->set_time_zone('+0100');
 
-    is( $dt->datetime, '1997-07-01T00:59:59',
-        '+0100 time end of leap second day' );
+    is(
+        $dt->datetime, '1997-07-01T00:59:59',
+        '+0100 time end of leap second day'
+    );
 }
 
 {
@@ -1081,21 +1155,23 @@ use DateTime;
         [ 1998, 12, 31 ],
         [ 2005, 12, 31 ],
         [ 2008, 12, 31 ],
+        [ 2012, 6,  30 ],
         ) {
-        my $dt = eval {
-            DateTime->new(
-                year      => $date->[0],
-                month     => $date->[1],
-                day       => $date->[2],
-                hour      => 23,
-                minute    => 59,
-                second    => 60,
-                time_zone => 'UTC',
-            );
-        };
+        my $formatted = join '-', map { sprintf( '%02d', $_ ) } @{$date};
 
-        my $formatted = join '-', @{$date};
-        ok( $dt,
+        is(
+            exception {
+                DateTime->new(
+                    year      => $date->[0],
+                    month     => $date->[1],
+                    day       => $date->[2],
+                    hour      => 23,
+                    minute    => 59,
+                    second    => 60,
+                    time_zone => 'UTC',
+                );
+            },
+            undef,
             "We can make a DateTime object for the leap second on $formatted"
         );
     }

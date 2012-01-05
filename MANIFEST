@@ -7,7 +7,6 @@ MANIFEST
 META.json
 META.yml
 README
-SIGNATURE
 TODO
 c/leap_seconds.h
 c/ppport.h
@@ -69,8 +68,10 @@ t/44set-formatter.t
 t/author-test-all-my-deps.t
 t/release-cpan-changes.t
 t/release-eol.t
+t/release-load-is-xs.t
 t/release-no-tabs.t
 t/release-pod-coverage.t
+t/release-pod-linkcheck.t
 t/release-pod-spell.t
 t/release-pod-syntax.t
 t/release-pp-00load.t

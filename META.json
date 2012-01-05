@@ -4,7 +4,7 @@
       "Dave Rolsky <autarch@urth.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.200006, CPAN::Meta::Converter version 2.110930",
+   "generated_by" : "Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640",
    "license" : [
       "artistic_2"
    ],
@@ -26,19 +26,32 @@
       },
       "runtime" : {
          "requires" : {
+            "Carp" : 0,
             "DateTime::Locale" : "0.41",
             "DateTime::TimeZone" : "1.09",
             "Math::Round" : 0,
             "Params::Validate" : "0.76",
             "Scalar::Util" : 0,
             "Time::Local" : "1.04",
-            "perl" : "v5.8.1"
+            "XSLoader" : 0,
+            "base" : 0,
+            "constant" : 0,
+            "integer" : 0,
+            "overload" : 0,
+            "perl" : "5.008001",
+            "strict" : 0,
+            "vars" : 0,
+            "warnings" : 0
          }
       },
       "test" : {
          "requires" : {
-            "Test::Exception" : 0,
-            "Test::More" : "0.88"
+            "Cwd" : 0,
+            "Storable" : 0,
+            "Test::DependentModules" : 0,
+            "Test::Fatal" : 0,
+            "Test::More" : "0.88",
+            "utf8" : 0
          }
       }
    },
@@ -49,11 +62,11 @@
          "web" : "http://rt.cpan.org/NoAuth/Bugs.html?Dist=DateTime"
       },
       "repository" : {
-         "type" : "hg",
-         "url" : "http://hg.urth.org/hg/DateTime.pm",
-         "web" : "http://hg.urth.org/hg/DateTime.pm"
+         "type" : "git",
+         "url" : "git://git.urth.org/DateTime.pm.git",
+         "web" : "http://git.urth.org/DateTime.pm.git"
       }
    },
-   "version" : "0.70"
+   "version" : "0.71"
 }
 

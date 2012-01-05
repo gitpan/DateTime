@@ -1,6 +1,6 @@
 package DateTime;
-BEGIN {
-  $DateTime::VERSION = '0.70';
+{
+  $DateTime::VERSION = '0.71';
 }
 
 use 5.008001;
@@ -12,7 +12,7 @@ use Carp;
 use DateTime::Helpers;
 use Math::Round qw( nearest round );
 
-BEGIN {
+{
     my $loaded = 0;
 
     unless ( $ENV{PERL_DATETIME_PP} ) {
@@ -43,10 +43,10 @@ BEGIN {
 }
 
 use DateTime::Duration;
-use DateTime::Locale 0.40;
-use DateTime::TimeZone 0.59;
-use Time::Local qw( timegm_nocheck );
-use Params::Validate
+use DateTime::Locale 0.41;
+use DateTime::TimeZone 1.09;
+use Time::Local 1.04 qw( timegm_nocheck );
+use Params::Validate 0.76
     qw( validate validate_pos UNDEF SCALAR BOOLEAN HASHREF OBJECT );
 
 # for some reason, overloading doesn't work unless fallback is listed
@@ -2041,10 +2041,8 @@ sub STORABLE_thaw {
     return $self;
 }
 
-package DateTime::_Thawed;
-BEGIN {
-  $DateTime::_Thawed::VERSION = '0.70';
-}
+package
+    DateTime::_Thawed;
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
 
@@ -2064,7 +2062,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.70
+version 0.71
 
 =head1 SYNOPSIS
 
@@ -4168,7 +4166,7 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2011 by Dave Rolsky.
+This software is Copyright (c) 2012 by Dave Rolsky.
 
 This is free software, licensed under:
 
