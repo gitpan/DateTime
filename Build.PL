@@ -23,7 +23,7 @@ my %module_build_args = (
     "Dave Rolsky <autarch\@urth.org>"
   ],
   "dist_name" => "DateTime",
-  "dist_version" => "0.72",
+  "dist_version" => "0.73",
   "license" => "artistic_2",
   "module_name" => "DateTime",
   "recommends" => {},
@@ -52,9 +52,16 @@ my %module_build_args = (
 
 my $build = Module::Build->new(%module_build_args);
 
+my $skip_xs;
 if ( grep { $_ eq '--pp' } @ARGV ) {
+    $skip_xs = 1;
+}
+elsif ( ! $build->have_c_compiler() ) {
+    $skip_xs = 1;
+}
+
+if ($skip_xs) {
     $build->build_elements(
         [ grep { $_ ne 'xs' } @{ $build->build_elements() } ] );
 }
-
 $build->create_build_script;

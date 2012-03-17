@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '0.72';
+  $DateTime::VERSION = '0.73';
 }
 
 use strict;

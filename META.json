@@ -4,7 +4,7 @@
       "Dave Rolsky <autarch@urth.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 4.300006, CPAN::Meta::Converter version 2.113640",
+   "generated_by" : "Dist::Zilla version 4.300009, CPAN::Meta::Converter version 2.120351",
    "license" : [
       "artistic_2"
    ],
@@ -26,31 +26,31 @@
       },
       "runtime" : {
          "requires" : {
-            "Carp" : 0,
+            "Carp" : "0",
             "DateTime::Locale" : "0.41",
             "DateTime::TimeZone" : "1.09",
-            "Math::Round" : 0,
+            "Math::Round" : "0",
             "Params::Validate" : "0.76",
-            "Scalar::Util" : 0,
+            "Scalar::Util" : "0",
             "Time::Local" : "1.04",
-            "XSLoader" : 0,
-            "base" : 0,
-            "constant" : 0,
-            "integer" : 0,
-            "overload" : 0,
+            "XSLoader" : "0",
+            "base" : "0",
+            "constant" : "0",
+            "integer" : "0",
+            "overload" : "0",
             "perl" : "5.008001",
-            "strict" : 0,
-            "vars" : 0,
-            "warnings" : 0
+            "strict" : "0",
+            "vars" : "0",
+            "warnings" : "0"
          }
       },
       "test" : {
          "requires" : {
-            "Cwd" : 0,
-            "Storable" : 0,
-            "Test::Fatal" : 0,
+            "Cwd" : "0",
+            "Storable" : "0",
+            "Test::Fatal" : "0",
             "Test::More" : "0.88",
-            "utf8" : 0
+            "utf8" : "0"
          }
       }
    },
@@ -66,6 +66,6 @@
          "web" : "http://git.urth.org/DateTime.pm.git"
       }
    },
-   "version" : "0.72"
+   "version" : "0.73"
 }
 

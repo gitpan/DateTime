@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '0.72';
+  $DateTime::VERSION = '0.73';
 }
 
 use 5.008001;
@@ -19,7 +19,8 @@ use Math::Round qw( nearest round );
         local $@;
         eval {
             require XSLoader;
-            XSLoader::load( __PACKAGE__,
+            XSLoader::load(
+                __PACKAGE__,
                 exists $DateTime::{VERSION}
                 ? ${ $DateTime::{VERSION} }
                 : ()
@@ -2062,7 +2063,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.72
+version 0.73
 
 =head1 SYNOPSIS
 
@@ -2501,7 +2502,7 @@ year 1 is "1AD" and year 0 is "1BC".
 
 =item * $dt->year_with_christian_era()
 
-Like C<year_with_era()>, but uses the christian_era() to get the era
+Like C<year_with_era()>, but uses the christian_era() method to get the era
 name.
 
 =item * $dt->year_with_secular_era()
@@ -2865,6 +2866,9 @@ the C<set_time_zone()> method.
 
 This method performs parameters validation just as is done in the
 C<new()> method.
+
+B<Do not use this method to do date math. Use the C<add()> and C<subtract()>
+methods instead.>
 
 =item * $dt->set_year()
 
@@ -3418,7 +3422,7 @@ used, we sometimes get interesting results:
   $dt2->subtract_duration($dur);
   # gives us 2003-04-05 02:58:00 - 1 hour later than $dt1
 
-The C<subtract_dauration()> operation gives us a (perhaps) unexpected
+The C<subtract_duration()> operation gives us a (perhaps) unexpected
 answer because it first subtracts one day to get 2003-04-05T03:01:00
 and then subtracts 3 minutes to get the final result.
 

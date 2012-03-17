@@ -17,6 +17,8 @@ use Test::More;
 
 use DateTime;
 
+my $badlt_rx = qr/Invalid local time|local time [0-9\-:T]+ does not exist/;
+
 {
     eval {
         DateTime->new(
@@ -25,7 +27,7 @@ use DateTime;
         );
     };
 
-    like( $@, qr/Invalid local time .+/, 'exception for invalid time' );
+    like( $@, $badlt_rx, 'exception for invalid time' );
 
     eval {
         DateTime->new(
@@ -34,7 +36,7 @@ use DateTime;
             time_zone => 'America/Chicago',
         );
     };
-    like( $@, qr/Invalid local time .+/, 'exception for invalid time' );
+    like( $@, $badlt_rx, 'exception for invalid time' );
 }
 
 {
@@ -54,8 +56,7 @@ use DateTime;
     );
 
     eval { $dt->add( days => 1 ) };
-    like( $@, qr/Invalid local time .+/,
-        'exception for invalid time produced via add' );
+    like( $@, $badlt_rx, 'exception for invalid time produced via add' );
 }
 
 done_testing();

@@ -18,15 +18,10 @@ use Test::More;
 
 use DateTime;
 
-if ( $] >= 5.008 ) {
-    for my $fh (
-        Test::Builder->new()->output(),
-        Test::Builder->new()->failure_output(),
-        Test::Builder->new()->todo_output(),
-        ) {
-        binmode $fh, ':utf8';
-    }
-}
+binmode $_, ':encoding(UTF-8)'
+    for Test::Builder->new()->output(),
+    Test::Builder->new()->failure_output(),
+    Test::Builder->new()->todo_output();
 
 {
     my $dt = DateTime->new(
