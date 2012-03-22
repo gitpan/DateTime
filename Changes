@@ -1,3 +1,8 @@
+0.74   2012-03-22
+
+- Small packaging fix for metacpan's benefit. No need to upgrade.
+
+
 0.73   2012-03-17
 
 - Change tests to work with Zefram's entirely rebuilt DateTime::TimeZone

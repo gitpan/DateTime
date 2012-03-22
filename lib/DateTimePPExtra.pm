@@ -1,7 +1,5 @@
-package DateTime;
-{
-  $DateTime::VERSION = '0.73';
-}
+package
+    DateTime;
 
 use strict;
 use warnings;

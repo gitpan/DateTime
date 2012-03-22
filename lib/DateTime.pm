@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '0.73';
+  $DateTime::VERSION = '0.74';
 }
 
 use 5.008001;
@@ -2063,7 +2063,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.73
+version 0.74
 
 =head1 SYNOPSIS
 
