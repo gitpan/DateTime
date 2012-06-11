@@ -1,16 +1,12 @@
 package DateTime;
 {
-  $DateTime::VERSION = '0.74';
+  $DateTime::VERSION = '0.75';
 }
 
 use 5.008001;
 
 use strict;
 use warnings;
-
-use Carp;
-use DateTime::Helpers;
-use Math::Round qw( nearest round );
 
 {
     my $loaded = 0;
@@ -21,9 +17,9 @@ use Math::Round qw( nearest round );
             require XSLoader;
             XSLoader::load(
                 __PACKAGE__,
-                exists $DateTime::{VERSION}
+                exists $DateTime::{VERSION} && ${ $DateTime::{VERSION} }
                 ? ${ $DateTime::{VERSION} }
-                : ()
+                : 42
             );
 
             $DateTime::IsPurePerl = 0;
@@ -43,10 +39,12 @@ use Math::Round qw( nearest round );
     }
 }
 
+use Carp;
 use DateTime::Duration;
+use DateTime::Helpers;
 use DateTime::Locale 0.41;
 use DateTime::TimeZone 1.09;
-use Time::Local 1.04 qw( timegm_nocheck );
+use Math::Round qw( nearest round );
 use Params::Validate 0.76
     qw( validate validate_pos UNDEF SCALAR BOOLEAN HASHREF OBJECT );
 
@@ -1048,7 +1046,7 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         foreach my $p (@patterns) {
             $p =~ s/
                     (?:
-                      %{(\w+)}         # method name like %{day_name}
+                      %\{(\w+)\}       # method name like %{day_name}
                       |
                       %([%a-zA-Z])     # single character specifier like %d
                       |
@@ -1316,17 +1314,9 @@ sub epoch {
     return $self->{utc_c}{epoch}
         if exists $self->{utc_c}{epoch};
 
-    my ( $year, $month, $day ) = $self->_utc_ymd;
-    my @hms = $self->_utc_hms;
-
-    $self->{utc_c}{epoch} = timegm_nocheck(
-        ( reverse @hms ),
-        $day,
-        $month - 1,
-        $year,
-    );
-
-    return $self->{utc_c}{epoch};
+    return $self->{utc_c}{epoch}
+        = ( $self->{utc_rd_days} - 719163 ) * SECONDS_PER_DAY
+        + $self->{utc_rd_secs};
 }
 
 sub hires_epoch {
@@ -2063,7 +2053,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.74
+version 0.75
 
 =head1 SYNOPSIS
 
@@ -2222,7 +2212,7 @@ datetimes.
 =head2 Math
 
 If you are going to be using doing date math, please read the section L<How
-Datetime Math Works>.
+DateTime Math Works>.
 
 =head2 Time Zone Warnings
 
@@ -3086,7 +3076,7 @@ implements the C<utc_rd_values()> method.
 
 =back
 
-=head2 How Datetime Math Works
+=head2 How DateTime Math Works
 
 It's important to have some understanding of how datetime math is
 implemented in order to effectively use this module and
