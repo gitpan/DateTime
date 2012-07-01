@@ -1,6 +1,6 @@
 package DateTime::Duration;
 {
-  $DateTime::Duration::VERSION = '0.75';
+  $DateTime::Duration::VERSION = '0.76';
 }
 
 use strict;
@@ -318,7 +318,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.75
+version 0.76
 
 =head1 SYNOPSIS
 
