@@ -1,6 +1,6 @@
 package DateTime::Duration;
 {
-  $DateTime::Duration::VERSION = '0.77';
+  $DateTime::Duration::VERSION = '0.78';
 }
 
 use strict;
@@ -308,7 +308,7 @@ sub _compare_overload {
 
 # ABSTRACT: Duration objects for date math
 
-
+__END__
 
 =pod
 
@@ -318,7 +318,7 @@ DateTime::Duration - Duration objects for date math
 
 =head1 VERSION
 
-version 0.77
+version 0.78
 
 =head1 SYNOPSIS
 
@@ -609,8 +609,3 @@ This is free software, licensed under:
   The Artistic License 2.0 (GPL Compatible)
 
 =cut
-
-
-__END__
-
-

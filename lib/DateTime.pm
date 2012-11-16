@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '0.77';
+  $DateTime::VERSION = '0.78';
 }
 
 use 5.008001;
@@ -44,9 +44,9 @@ use DateTime::Duration;
 use DateTime::Helpers;
 use DateTime::Locale 0.41;
 use DateTime::TimeZone 1.09;
-use Math::Round qw( nearest round );
 use Params::Validate 0.76
     qw( validate validate_pos UNDEF SCALAR BOOLEAN HASHREF OBJECT );
+use POSIX qw(floor);
 
 # for some reason, overloading doesn't work unless fallback is listed
 # early.
@@ -824,9 +824,9 @@ sub nanosecond {
     return $_[0]->{rd_nanosecs};
 }
 
-sub millisecond { round( $_[0]->{rd_nanosecs} / 1000000 ) }
+sub millisecond { floor( $_[0]->{rd_nanosecs} / 1000000 ) }
 
-sub microsecond { round( $_[0]->{rd_nanosecs} / 1000 ) }
+sub microsecond { floor( $_[0]->{rd_nanosecs} / 1000 ) }
 
 sub leap_seconds {
     my $self = shift;
@@ -1304,7 +1304,7 @@ sub _format_nanosecs {
 
     return sprintf(
         '%0' . $precision . 'u',
-        round( $self->{rd_nanosecs} / $divide_by )
+        floor( $self->{rd_nanosecs} / $divide_by )
     );
 }
 
@@ -2050,7 +2050,7 @@ sub time_zone { $_[0]->{tz} }
 
 # ABSTRACT: A date and time object
 
-
+__END__
 
 =pod
 
@@ -2060,7 +2060,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.77
+version 0.78
 
 =head1 SYNOPSIS
 
@@ -2417,7 +2417,7 @@ By default, the returned object will be in the UTC time zone.
 
 This class method is equivalent to:
 
-  DateTime->now->truncate( to => 'day' );
+  DateTime->now(@_)->truncate( to => 'day' );
 
 =head3 DateTime->from_object( object => $object, ... )
 
@@ -2633,13 +2633,16 @@ Returns the fractional part of the second as milliseconds (1E-3 seconds).
 
 Half a second is 500 milliseconds.
 
+This value will always be rounded down to the nearest integer.
+
 =head3 $dt->microsecond()
 
 Returns the fractional part of the second as microseconds (1E-6
-seconds). This value will be rounded to an integer.
+seconds).
 
-Half a second is 500_000 microseconds. This value will be rounded to
-an integer.
+Half a second is 500_000 microseconds.
+
+This value will always be rounded down to the nearest integer.
 
 =head3 $dt->nanosecond()
 
@@ -3939,6 +3942,8 @@ The fractional seconds digits. Default is 9 digits (nanoseconds).
   %6N   microseconds (6 digits)
   %9N   nanoseconds  (9 digits)
 
+This value will always be rounded down to the nearest integer.
+
 =item * %p
 
 Either `AM' or `PM' according to the given time value, or the
@@ -4152,7 +4157,3 @@ This is free software, licensed under:
   The Artistic License 2.0 (GPL Compatible)
 
 =cut
-
-
-__END__
-

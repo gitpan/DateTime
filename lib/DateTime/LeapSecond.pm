@@ -1,6 +1,6 @@
 package DateTime::LeapSecond;
 {
-  $DateTime::LeapSecond::VERSION = '0.77';
+  $DateTime::LeapSecond::VERSION = '0.78';
 }
 
 use strict;
@@ -121,7 +121,7 @@ __PACKAGE__->_initialize();
 1;
 # ABSTRACT: leap seconds table and utilities
 
-
+__END__
 
 =pod
 
@@ -131,7 +131,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 0.77
+version 0.78
 
 =head1 SYNOPSIS
 
@@ -191,7 +191,3 @@ This is free software, licensed under:
   The Artistic License 2.0 (GPL Compatible)
 
 =cut
-
-
-__END__
-
