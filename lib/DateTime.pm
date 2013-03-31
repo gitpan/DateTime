@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '0.78';
+  $DateTime::VERSION = '1.00';
 }
 
 use 5.008001;
@@ -992,7 +992,7 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         'G' => sub { $_[0]->week_year },
         'H' => sub { sprintf( '%02d', $_[0]->hour ) },
         'I' => sub { sprintf( '%02d', $_[0]->hour_12 ) },
-        'j' => sub { $_[0]->day_of_year },
+        'j' => sub { sprintf( '%03d', $_[0]->day_of_year ) },
         'k' => sub { sprintf( '%2d', $_[0]->hour ) },
         'l' => sub { sprintf( '%2d', $_[0]->hour_12 ) },
         'm' => sub { sprintf( '%02d', $_[0]->month ) },
@@ -1911,7 +1911,7 @@ sub set_formatter  { $_[0]->set( formatter  => $_[1] ) }
     );
     my $re = join '|', 'year', 'week',
         grep { $_ ne 'nanosecond' } keys %TruncateDefault;
-    my $spec = { to => { regex => qr/^(?:$re)/ } };
+    my $spec = { to => { regex => qr/^(?:$re)$/ } };
 
     sub truncate {
         my $self = shift;
@@ -1955,16 +1955,28 @@ sub set_time_zone {
 
     my $was_floating = $self->{tz}->is_floating;
 
+    my $old_tz = $self->{tz};
     $self->{tz} = ref $tz ? $tz : DateTime::TimeZone->new( name => $tz );
 
     $self->_handle_offset_modifier( $self->second, 1 );
 
-    # if it either was or now is floating (but not both)
-    if ( $self->{tz}->is_floating xor $was_floating ) {
-        $self->_calc_utc_rd;
-    }
-    elsif ( !$was_floating ) {
-        $self->_calc_local_rd;
+    local $@;
+    eval {
+        # if it either was or now is floating (but not both)
+        if ( $self->{tz}->is_floating xor $was_floating ) {
+            $self->_calc_utc_rd;
+        }
+        elsif ( !$was_floating ) {
+            $self->_calc_local_rd;
+        }
+    };
+
+    # If we can't recalc the RD values then we shouldn't keep the new TZ. RT
+    # #83940
+    my $e = $@;
+    if ($e) {
+        $self->{tz} = $old_tz;
+        die $e;
     }
 
     return $self;
@@ -1984,7 +1996,7 @@ sub STORABLE_freeze {
     }
 
     # not used yet, but may be handy in the future.
-    $serialized .= "version:$DateTime::VERSION";
+    $serialized .= 'version:' . ( $DateTime::VERSION || 'git' );
 
     # Formatter needs to be returned as a reference since it may be
     # undef or a class name, and Storable will complain if extra
@@ -2060,7 +2072,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 0.78
+version 1.00
 
 =head1 SYNOPSIS
 
@@ -4150,7 +4162,7 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2012 by Dave Rolsky.
+This software is Copyright (c) 2013 by Dave Rolsky.
 
 This is free software, licensed under:
 

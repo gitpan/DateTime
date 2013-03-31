@@ -13,7 +13,8 @@ BEGIN {
 use strict;
 use warnings;
 
-use Test::More;
+use Test::Fatal;
+use Test::More 0.88;
 
 use DateTime;
 
@@ -131,6 +132,18 @@ my %vals = (
         is( $dt->year,  2003, 'truncation to week across month boundary' );
         is( $dt->month, 9,    'truncation to week across month boundary' );
         is( $dt->day,   29,   'truncation to week across month boundary' );
+    }
+}
+
+{
+    my $dt = DateTime->new(%vals);
+
+    for my $bad (qw( seconds minutes year_foo month_bar )) {
+        like(
+            exception { $dt->truncate( to => $bad ) },
+            qr/\QThe 'to' parameter/,
+            "bad truncate parameter ($bad) throws an error"
+        );
     }
 }
 
