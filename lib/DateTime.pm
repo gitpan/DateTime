@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '1.00';
+  $DateTime::VERSION = '1.01';
 }
 
 use 5.008001;
@@ -47,6 +47,7 @@ use DateTime::TimeZone 1.09;
 use Params::Validate 0.76
     qw( validate validate_pos UNDEF SCALAR BOOLEAN HASHREF OBJECT );
 use POSIX qw(floor);
+use Try::Tiny;
 
 # for some reason, overloading doesn't work unless fallback is listed
 # early.
@@ -1960,8 +1961,8 @@ sub set_time_zone {
 
     $self->_handle_offset_modifier( $self->second, 1 );
 
-    local $@;
-    eval {
+    my $e;
+    try {
         # if it either was or now is floating (but not both)
         if ( $self->{tz}->is_floating xor $was_floating ) {
             $self->_calc_utc_rd;
@@ -1969,11 +1970,13 @@ sub set_time_zone {
         elsif ( !$was_floating ) {
             $self->_calc_local_rd;
         }
+    }
+    catch {
+        $e = $_;
     };
 
     # If we can't recalc the RD values then we shouldn't keep the new TZ. RT
     # #83940
-    my $e = $@;
     if ($e) {
         $self->{tz} = $old_tz;
         die $e;
@@ -2072,7 +2075,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 1.00
+version 1.01
 
 =head1 SYNOPSIS
 
