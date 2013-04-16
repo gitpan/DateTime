@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '1.01';
+  $DateTime::VERSION = '1.02';
 }
 
 use 5.008001;
@@ -211,6 +211,9 @@ sub new {
 sub _new {
     my $class = shift;
     my %p     = @_;
+
+    Carp::croak('Constructor called with reference, we expected a package')
+        if ref $class;
 
     # If this method is called from somewhere other than new(), then some of
     # these default may not get applied.
@@ -1949,10 +1952,15 @@ sub set_formatter  { $_[0]->set( formatter  => $_[1] ) }
 sub set_time_zone {
     my ( $self, $tz ) = @_;
 
-    # This is a bit of a hack but it works because time zone objects
-    # are singletons, and if it doesn't work all we lose is a little
-    # bit of speed.
-    return $self if $self->{tz} eq $tz;
+    if (ref $tz) {
+        # This is a bit of a hack but it works because time zone objects
+        # are singletons, and if it doesn't work all we lose is a little
+        # bit of speed.
+        return $self if $self->{tz} eq $tz;
+    }
+    else {
+        return if $self->{tz}->name() eq $tz;
+    }
 
     my $was_floating = $self->{tz}->is_floating;
 
@@ -2075,7 +2083,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 1.01
+version 1.02
 
 =head1 SYNOPSIS
 
