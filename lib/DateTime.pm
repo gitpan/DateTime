@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '1.02';
+  $DateTime::VERSION = '1.03';
 }
 
 use 5.008001;
@@ -1959,7 +1959,7 @@ sub set_time_zone {
         return $self if $self->{tz} eq $tz;
     }
     else {
-        return if $self->{tz}->name() eq $tz;
+        return $self if $self->{tz}->name() eq $tz;
     }
 
     my $was_floating = $self->{tz}->is_floating;
@@ -2083,7 +2083,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 1.02
+version 1.03
 
 =head1 SYNOPSIS
 

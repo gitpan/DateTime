@@ -1,6 +1,6 @@
 package DateTime::Helpers;
 {
-  $DateTime::Helpers::VERSION = '1.02';
+  $DateTime::Helpers::VERSION = '1.03';
 }
 
 use strict;
