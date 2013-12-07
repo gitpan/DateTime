@@ -39,7 +39,7 @@ SKIP:
     is(
         $dt->set_formatter($formatter),
        $dt,
-        'set_format returns the datetime object'
+        'set_formatter returns the datetime object'
     );
 }
 

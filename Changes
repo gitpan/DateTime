@@ -1,6 +1,13 @@
+1.04   2013-12-07
+
+- Calling set_locale() or set_formatter() on an object with an ambiguous local
+  time could change the underlying UTC time for that object. Reported by Marta
+  Cuaresma Saturio. RT #90583.
+
+
 1.03   2013-04-17
 
-- The set_time_zone() method was not returning the object when caalled with a
+- The set_time_zone() method was not returning the object when called with a
   name that matched the current zone. Reported by Noel Maddy. RT #84699.
 
 
