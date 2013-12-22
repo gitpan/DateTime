@@ -1,6 +1,6 @@
 package DateTime;
 {
-  $DateTime::VERSION = '1.04';
+  $DateTime::VERSION = '1.05';
 }
 
 use 5.008001;
@@ -201,7 +201,7 @@ sub new {
         "Invalid day of month (day = $p{day} - month = $p{month} - year = $p{year})\n"
         )
         if $p{day} > 28
-            && $p{day} > $class->_month_length( $p{year}, $p{month} );
+        && $p{day} > $class->_month_length( $p{year}, $p{month} );
 
     return $class->_new(%p);
 }
@@ -245,8 +245,10 @@ sub _new {
     $self->{rd_nanosecs} = $p{nanosecond};
     $self->{formatter}   = $p{formatter};
 
-    $self->_normalize_nanoseconds( $self->{local_rd_secs},
-        $self->{rd_nanosecs} );
+    $self->_normalize_nanoseconds(
+        $self->{local_rd_secs},
+        $self->{rd_nanosecs}
+    );
 
     # Set this explicitly since it can't be calculated accurately
     # without knowing our time zone offset, and it's possible that the
@@ -398,8 +400,10 @@ sub _calc_utc_rd {
 
     # We account for leap seconds in the new() method and nowhere else
     # except date math.
-    $self->_normalize_tai_seconds( $self->{utc_rd_days},
-        $self->{utc_rd_secs} );
+    $self->_normalize_tai_seconds(
+        $self->{utc_rd_days},
+        $self->{utc_rd_secs}
+    );
 }
 
 sub _normalize_seconds {
@@ -408,12 +412,16 @@ sub _normalize_seconds {
     return if $self->{utc_rd_secs} >= 0 && $self->{utc_rd_secs} <= 86399;
 
     if ( $self->{tz}->is_floating ) {
-        $self->_normalize_tai_seconds( $self->{utc_rd_days},
-            $self->{utc_rd_secs} );
+        $self->_normalize_tai_seconds(
+            $self->{utc_rd_days},
+            $self->{utc_rd_secs}
+        );
     }
     else {
-        $self->_normalize_leap_seconds( $self->{utc_rd_days},
-            $self->{utc_rd_secs} );
+        $self->_normalize_leap_seconds(
+            $self->{utc_rd_days},
+            $self->{utc_rd_secs}
+        );
     }
 }
 
@@ -435,8 +443,10 @@ sub _calc_local_rd {
         $self->{local_rd_secs} = $self->{utc_rd_secs} + $offset;
 
         # intentionally ignore leap seconds here
-        $self->_normalize_tai_seconds( $self->{local_rd_days},
-            $self->{local_rd_secs} );
+        $self->_normalize_tai_seconds(
+            $self->{local_rd_days},
+            $self->{local_rd_secs}
+        );
 
         $self->{local_rd_secs} += $self->{offset_modifier};
     }
@@ -454,8 +464,10 @@ sub _calc_local_components {
         = $self->_rd2ymd( $self->{local_rd_days}, 1 );
 
     @{ $self->{local_c} }{qw( hour minute second )}
-        = $self->_seconds_as_components( $self->{local_rd_secs},
-        $self->{utc_rd_secs}, $self->{offset_modifier} );
+        = $self->_seconds_as_components(
+        $self->{local_rd_secs},
+        $self->{utc_rd_secs}, $self->{offset_modifier}
+        );
 }
 
 sub _calc_utc_components {
@@ -504,6 +516,7 @@ sub _utc_hms {
         my %p = validate( @_, $spec );
 
         my %args;
+
         # Epoch may come from Time::HiRes, so it may not be an integer.
         my ( $int, $dec ) = $p{epoch} =~ /^(-?\d+)?(\.\d+)?/;
         $int ||= 0;
@@ -743,14 +756,8 @@ sub day_of_week_0 { $_[0]->{local_c}{day_of_week} - 1 }
 
 sub local_day_of_week {
     my $self = shift;
-
-    my $day = $self->day_of_week();
-
-    my $local_first_day = $self->{locale}->first_day_of_week();
-
-    my $d = ( ( 8 - $local_first_day ) + $day ) % 7;
-
-    return $d == 0 ? 7 : $d;
+    return 1
+        + ( $self->day_of_week - $self->{locale}->first_day_of_week ) % 7;
 }
 
 sub day_name { $_[0]->{locale}->day_format_wide->[ $_[0]->day_of_week_0() ] }
@@ -916,7 +923,7 @@ sub _weeks_in_year {
 
     my $dow = $self->_ymd2rd( $year, 1, 1 ) % 7;
 
-    # Tears starting with a Thursday and leap years starting with a Wednesday
+    # Years starting with a Thursday and leap years starting with a Wednesday
     # have 53 weeks.
     return ( $dow == 4 || ( $dow == 3 && $self->_is_leap_year($year) ) )
         ? 53
@@ -1013,7 +1020,7 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         'l' => sub { sprintf( '%2d', $_[0]->hour_12 ) },
         'm' => sub { sprintf( '%02d', $_[0]->month ) },
         'M' => sub { sprintf( '%02d', $_[0]->minute ) },
-        'n' => sub {"\n"},                     # should this be OS-sensitive?
+        'n' => sub { "\n" },                   # should this be OS-sensitive?
         'N' => \&_format_nanosecs,
         'p' => sub { $_[0]->am_or_pm() },
         'P' => sub { lc $_[0]->am_or_pm() },
@@ -1021,7 +1028,7 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         'R' => sub { $_[0]->strftime('%H:%M') },
         's' => sub { $_[0]->epoch },
         'S' => sub { sprintf( '%02d', $_[0]->second ) },
-        't' => sub {"\t"},
+        't' => sub { "\t" },
         'T' => sub { $_[0]->strftime('%H:%M:%S') },
         'u' => sub { $_[0]->day_of_week },
         'U' => sub {
@@ -1047,7 +1054,7 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         'Y' => sub { return $_[0]->year },
         'z' => sub { DateTime::TimeZone->offset_as_string( $_[0]->offset ) },
         'Z' => sub { $_[0]->{tz}->short_name_for_datetime( $_[0] ) },
-        '%' => sub {'%'},
+        '%' => sub { '%' },
     );
 
     $strftime_patterns{h} = $strftime_patterns{b};
@@ -1219,8 +1226,10 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         # spec is not all that clear.
         qr/(S+)/ => sub {
             my $l   = length $1;
-            my $val = sprintf( "%.${l}f",
-                $_[0]->fractional_second() - $_[0]->second() );
+            my $val = sprintf(
+                "%.${l}f",
+                $_[0]->fractional_second() - $_[0]->second()
+            );
             $val =~ s/^0\.//;
             $val || 0;
         },
@@ -1229,7 +1238,15 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
 
         qr/zzzz/   => sub { $_[0]->time_zone_long_name() },
         qr/z{1,3}/ => sub { $_[0]->time_zone_short_name() },
-        qr/ZZZZ/   => sub {
+        qr/ZZZZZ/  => sub {
+            substr(
+                my $z
+                    = DateTime::TimeZone->offset_as_string( $_[0]->offset() ),
+                -2, 0, ":"
+            );
+            $z;
+        },
+        qr/ZZZZ/ => sub {
             $_[0]->time_zone_short_name()
                 . DateTime::TimeZone->offset_as_string( $_[0]->offset() );
         },
@@ -1300,7 +1317,7 @@ sub mjd { $_[0]->jd - 2_400_000.5 }
         my $self    = shift;
         my $pattern = shift;
 
-        for ( my $i = 0; $i < @patterns; $i += 2 ) {
+        for ( my $i = 0 ; $i < @patterns ; $i += 2 ) {
             if ( $pattern =~ /$patterns[$i]/ ) {
                 my $sub = $patterns[ $i + 1 ];
 
@@ -1347,8 +1364,8 @@ sub hires_epoch {
     return $epoch + $nano;
 }
 
-sub is_finite   {1}
-sub is_infinite {0}
+sub is_finite   { 1 }
+sub is_infinite { 0 }
 
 # added for benefit of DateTime::TimeZone
 sub utc_year { $_[0]->{utc_year} }
@@ -1746,8 +1763,10 @@ sub subtract_duration { return $_[0]->add_duration( $_[1]->inverse ) }
             $self->{utc_rd_secs} += $deltas{minutes} * 60;
 
             # This intentionally ignores leap seconds
-            $self->_normalize_tai_seconds( $self->{utc_rd_days},
-                $self->{utc_rd_secs} );
+            $self->_normalize_tai_seconds(
+                $self->{utc_rd_days},
+                $self->{utc_rd_secs}
+            );
         }
 
         if ( $deltas{seconds} || $deltas{nanoseconds} ) {
@@ -1755,8 +1774,10 @@ sub subtract_duration { return $_[0]->add_duration( $_[1]->inverse ) }
 
             if ( $deltas{nanoseconds} ) {
                 $self->{rd_nanosecs} += $deltas{nanoseconds};
-                $self->_normalize_nanoseconds( $self->{utc_rd_secs},
-                    $self->{rd_nanosecs} );
+                $self->_normalize_nanoseconds(
+                    $self->{utc_rd_secs},
+                    $self->{rd_nanosecs}
+                );
             }
 
             $self->_normalize_seconds;
@@ -1946,7 +1967,7 @@ sub set_formatter {
         second     => 0,
         nanosecond => 0,
     );
-    my $re = join '|', 'year', 'week',
+    my $re = join '|', 'year', 'week', 'local_week',
         grep { $_ ne 'nanosecond' } keys %TruncateDefault;
     my $spec = { to => { regex => qr/^(?:$re)$/ } };
 
@@ -1955,8 +1976,13 @@ sub set_formatter {
         my %p = validate( @_, $spec );
 
         my %new;
-        if ( $p{to} eq 'week' ) {
-            my $day_diff = $self->day_of_week - 1;
+        if ( $p{to} eq 'week' || $p{to} eq 'local_week' ) {
+            my $first_day_of_week
+                = ( $p{to} eq 'local_week' )
+                ? $self->{locale}->first_day_of_week
+                : 1;
+
+            my $day_diff = ( $self->day_of_week - $first_day_of_week ) % 7;
 
             if ($day_diff) {
                 $self->add( days => -1 * $day_diff );
@@ -1985,7 +2011,8 @@ sub set_formatter {
 sub set_time_zone {
     my ( $self, $tz ) = @_;
 
-    if (ref $tz) {
+    if ( ref $tz ) {
+
         # This is a bit of a hack but it works because time zone objects
         # are singletons, and if it doesn't work all we lose is a little
         # bit of speed.
@@ -2095,7 +2122,7 @@ sub STORABLE_thaw {
     return $self;
 }
 
-package
+package    # hide from PAUSE
     DateTime::_Thawed;
 
 sub utc_rd_values { @{ $_[0]->{utc_vals} } }
@@ -2116,7 +2143,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 1.04
+version 1.05
 
 =head1 SYNOPSIS
 
@@ -2937,15 +2964,16 @@ take a single parameter.
 
 =head3 $dt->truncate( to => ... )
 
-This method allows you to reset some of the local time components in
-the object to their "zero" values. The "to" parameter is used to
-specify which values to truncate, and it may be one of "year",
-"month", "week", "day", "hour", "minute", or "second". For example,
-if "month" is specified, then the local day becomes 1, and the hour,
-minute, and second all become 0.
+This method allows you to reset some of the local time components in the
+object to their "zero" values. The "to" parameter is used to specify which
+values to truncate, and it may be one of "year", "month", "week", "local_week"
+"day", "hour", "minute", or "second". For example, if "month" is specified,
+then the local day becomes 1, and the hour, minute, and second all become 0.
 
-If "week" is given, then the datetime is set to the beginning of the
-week in which it occurs, and the time components are all set to 0.
+If "week" is given, then the datetime is set to the Monday of the week in
+which it occurs, and the time components are all set to 0. If you truncate to
+"local_week", then the first day of the week is locale-dependent. For example,
+in the C<en_US> locale, the first day of the week is Sunday.
 
 =head3 $dt->set_time_zone( $tz )
 
@@ -3872,6 +3900,11 @@ The time zone offset.
 
 The time zone short name and the offset as one string, so something
 like "CDT-0500".
+
+=item * ZZZZZ
+
+The time zone offset as a sexagesimal number, so something like "-05:00".
+(This is useful for W3C format.)
 
 =item * v{1,3}
 
