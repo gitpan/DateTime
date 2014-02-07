@@ -1,8 +1,5 @@
 package DateTime::LeapSecond;
-{
-  $DateTime::LeapSecond::VERSION = '1.06';
-}
-
+$DateTime::LeapSecond::VERSION = '1.07';
 use strict;
 use warnings;
 
@@ -131,7 +128,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 1.06
+version 1.07
 
 =head1 SYNOPSIS
 
@@ -184,7 +181,7 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2013 by Dave Rolsky.
+This software is Copyright (c) 2014 by Dave Rolsky.
 
 This is free software, licensed under:
 

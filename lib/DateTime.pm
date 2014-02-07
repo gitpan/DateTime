@@ -1,8 +1,5 @@
 package DateTime;
-{
-  $DateTime::VERSION = '1.06';
-}
-
+$DateTime::VERSION = '1.07';
 use 5.008001;
 
 use strict;
@@ -2143,7 +2140,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 1.06
+version 1.07
 
 =head1 SYNOPSIS
 
@@ -2867,6 +2864,16 @@ Returns the epoch as a floating point number. The floating point
 portion of the value represents the nanosecond value of the object.
 This method is provided for compatibility with the C<Time::HiRes>
 module.
+
+Note that this method suffers from the imprecision of floating point numbers,
+and the result may end up rounded to an arbitrary degree depending on your
+platform.
+
+    my $dt = DateTime->new( year => 2012, nanosecond => 4 );
+    say $dt->hires_repoch();
+
+On my system, this simply prints C<1325376000> because adding C<0.000000004>
+to C<1325376000> returns C<1325376000>.
 
 =head3 $dt->is_finite(), $dt->is_infinite()
 
@@ -4239,7 +4246,7 @@ Dave Rolsky <autarch@urth.org>
 
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2013 by Dave Rolsky.
+This software is Copyright (c) 2014 by Dave Rolsky.
 
 This is free software, licensed under:
 
