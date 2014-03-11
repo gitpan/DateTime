@@ -1,5 +1,5 @@
 package DateTime::Infinite;
-$DateTime::Infinite::VERSION = '1.07';
+$DateTime::Infinite::VERSION = '1.08';
 use strict;
 use warnings;
 
@@ -34,7 +34,7 @@ sub STORABLE_freeze {return}
 sub STORABLE_thaw   {return}
 
 package DateTime::Infinite::Future;
-$DateTime::Infinite::Future::VERSION = '1.07';
+$DateTime::Infinite::Future::VERSION = '1.08';
 use strict;
 use warnings;
 
@@ -59,7 +59,7 @@ use base qw(DateTime::Infinite);
  }
 
 package DateTime::Infinite::Past;
-$DateTime::Infinite::Past::VERSION = '1.07';
+$DateTime::Infinite::Past::VERSION = '1.08';
 use strict;
 use warnings;
 
@@ -169,7 +169,7 @@ DateTime::Infinite - Infinite past and future DateTime objects
 
 =head1 VERSION
 
-version 1.07
+version 1.08
 
 =head1 SYNOPSIS
 

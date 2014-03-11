@@ -1,3 +1,11 @@
+1.08   2014-03-11
+
+- DateTime now calls DateTime->_core_time() instead of calling Perl's time()
+  built-in directly. This makes it much easier to override the value of time()
+  that DateTime sees. This may make it easier to write tests for code that
+  uses DateTime .
+
+
 1.07   2014-02-06
 
 - Added a hack to get this module working on Android. RT #92671.

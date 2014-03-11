@@ -4,7 +4,7 @@
       "Dave Rolsky <autarch@urth.org>"
    ],
    "dynamic_config" : 0,
-   "generated_by" : "Dist::Zilla version 5.012, CPAN::Meta::Converter version 2.131560",
+   "generated_by" : "Dist::Zilla version 5.013, CPAN::Meta::Converter version 2.131560",
    "license" : [
       "artistic_2"
    ],
@@ -73,7 +73,7 @@
          "web" : "http://git.urth.org/DateTime.pm.git"
       }
    },
-   "version" : "1.07",
+   "version" : "1.08",
    "x_authority" : "cpan:DROLSKY"
 }
 

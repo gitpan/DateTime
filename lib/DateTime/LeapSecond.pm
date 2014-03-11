@@ -1,5 +1,5 @@
 package DateTime::LeapSecond;
-$DateTime::LeapSecond::VERSION = '1.07';
+$DateTime::LeapSecond::VERSION = '1.08';
 use strict;
 use warnings;
 
@@ -128,7 +128,7 @@ DateTime::LeapSecond - leap seconds table and utilities
 
 =head1 VERSION
 
-version 1.07
+version 1.08
 
 =head1 SYNOPSIS
 
