@@ -1,40 +1,10 @@
 package DateTime;
-$DateTime::VERSION = '1.08';
+$DateTime::VERSION = '1.09';
 use 5.008001;
 
 use strict;
 use warnings;
-
-{
-    my $loaded = 0;
-
-    unless ( $ENV{PERL_DATETIME_PP} ) {
-        local $@;
-        eval {
-            require XSLoader;
-            XSLoader::load(
-                __PACKAGE__,
-                exists $DateTime::{VERSION} && ${ $DateTime::{VERSION} }
-                ? ${ $DateTime::{VERSION} }
-                : 42
-            );
-
-            $DateTime::IsPurePerl = 0;
-        };
-
-        die $@ if $@ && $@ !~ /object version|loadable object/;
-
-        $loaded = 1 unless $@;
-    }
-
-    if ($loaded) {
-        require DateTimePPExtra
-            unless defined &DateTime::_normalize_tai_seconds;
-    }
-    else {
-        require DateTimePP;
-    }
-}
+use warnings::register;
 
 use Carp;
 use DateTime::Duration;
@@ -45,6 +15,36 @@ use Params::Validate 0.76
     qw( validate validate_pos UNDEF SCALAR BOOLEAN HASHREF OBJECT );
 use POSIX qw(floor);
 use Try::Tiny;
+
+{
+    my $loaded = 0;
+
+    unless ( $ENV{PERL_DATETIME_PP} ) {
+        try {
+            require XSLoader;
+            XSLoader::load(
+                __PACKAGE__,
+                exists $DateTime::{VERSION} && ${ $DateTime::{VERSION} }
+                ? ${ $DateTime::{VERSION} }
+                : 42
+            );
+
+            $loaded               = 1;
+            $DateTime::IsPurePerl = 0;
+        }
+        catch {
+            die $_ if $_ && $_ !~ /object version|loadable object/;
+        };
+    }
+
+    if ($loaded) {
+        require DateTimePPExtra
+            unless defined &DateTime::_normalize_tai_seconds;
+    }
+    else {
+        require DateTimePP;
+    }
+}
 
 # for some reason, overloading doesn't work unless fallback is listed
 # early.
@@ -254,6 +254,8 @@ sub _new {
     # as its equal or greater to the correct number, so we fudge by
     # adding one to the local year given to the constructor.
     $self->{utc_year} = $p{year} + 1;
+
+    $self->_maybe_future_dst_warning( $p{year}, $p{time_zone} );
 
     $self->_calc_utc_rd;
 
@@ -530,6 +532,9 @@ sub _utc_hms {
 
         my $self = $class->_new( %p, %args, time_zone => 'UTC' );
 
+        my $tz = $p{time_zone};
+        $self->_maybe_future_dst_warning( $self->year(), $p{time_zone} );
+
         $self->set_time_zone( $p{time_zone} ) if exists $p{time_zone};
 
         return $self;
@@ -539,6 +544,22 @@ sub _utc_hms {
 sub now {
     my $class = shift;
     return $class->from_epoch( epoch => $class->_core_time(), @_ );
+}
+
+sub _maybe_future_dst_warning {
+    shift;
+    my $year = shift;
+    my $tz   = shift;
+
+    return unless $year >= 5000 && $tz;
+
+    my $tz_name = ref $tz ? $tz->name() : $tz;
+    return if $tz_name eq 'floating' || $tz_name eq 'UTC';
+
+    warnings::warnif(
+        "You are creating a DateTime object with a far future year ($year) and a time zone ($tz_name)."
+            . ' If the time zone you specified has future DST changes this will be very slow.'
+    );
 }
 
 # use scalar time in case someone's loaded Time::Piece
@@ -986,20 +1007,20 @@ sub local_rd_as_seconds {
     ( $_[0]->{local_rd_days} * SECONDS_PER_DAY ) + $_[0]->{local_rd_secs};
 }
 
-# RD 1 is JD 1,721,424.5 - a simple offset
-sub jd {
+# RD 1 is MJD 678,576 - a simple offset
+sub mjd {
     my $self = shift;
 
-    my $jd = $self->{utc_rd_days} + 1_721_424.5;
+    my $mjd = $self->{utc_rd_days} - 678_576;
 
     my $day_length = $self->_day_length( $self->{utc_rd_days} );
 
-    return (  $jd
+    return (  $mjd
             + ( $self->{utc_rd_secs} / $day_length )
             + ( $self->{rd_nanosecs} / $day_length / MAX_NANOSECONDS ) );
 }
 
-sub mjd { $_[0]->jd - 2_400_000.5 }
+sub jd { $_[0]->mjd + 2_400_000.5 }
 
 {
     my %strftime_patterns = (
@@ -1432,8 +1453,7 @@ sub subtract_datetime {
             if (
             $bigger->is_dst
             && do {
-                local $@;
-                my $prev_day = eval { $bigger->clone->subtract( days => 1 ) };
+                my $prev_day = try { $bigger->clone->subtract( days => 1 ) };
                 $prev_day && !$prev_day->is_dst ? 1 : 0;
             }
             );
@@ -1444,8 +1464,7 @@ sub subtract_datetime {
             if (
             !$bigger->is_dst
             && do {
-                local $@;
-                my $prev_day = eval { $bigger->clone->subtract( days => 1 ) };
+                my $prev_day = try { $bigger->clone->subtract( days => 1 ) };
                 $prev_day && $prev_day->is_dst ? 1 : 0;
             }
             );
@@ -1992,7 +2011,16 @@ sub set_formatter {
                 $self->add( days => -1 * $day_diff );
             }
 
-            return $self->truncate( to => 'day' );
+            # This can fail if the truncate ends up giving us an invalid local
+            # date time. If that happens we need to reverse the addition we
+            # just did. See https://rt.cpan.org/Ticket/Display.html?id=93347.
+            try {
+                $self->truncate( to => 'day' );
+            }
+            catch {
+                $self->add( days => $day_diff );
+                die $_;
+            };
         }
         else {
             my $truncate;
@@ -2147,7 +2175,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 1.08
+version 1.09
 
 =head1 SYNOPSIS
 
@@ -2308,13 +2336,13 @@ datetimes.
 If you are going to be using doing date math, please read the section L<How
 DateTime Math Works>.
 
-=head2 Time Zone Warnings
+=head2 Determining the Local Time Zone Can Be Slow
 
-Determining the local time zone for a system can be slow. If C<$ENV{TZ}> is
-not set, it may involve reading a number of files in F</etc> or elsewhere. If
-you know that the local time zone won't change while your code is running, and
-you need to make many objects for the local time zone, it is strongly
-recommended that you retrieve the local time zone once and cache it:
+If C<$ENV{TZ}> is not set, it may involve reading a number of files in F</etc>
+or elsewhere. If you know that the local time zone won't change while your
+code is running, and you need to make many objects for the local time zone, it
+is strongly recommended that you retrieve the local time zone once and cache
+it:
 
   our $App::LocalTZ = DateTime::TimeZone->new( name => 'local' );
 
@@ -2340,6 +2368,22 @@ based on what they do (constructor, accessors, modifiers, etc.).
 =head2 Constructors
 
 All constructors can die when invalid parameters are given.
+
+=head3 Warnings
+
+Currently, constructors will warn if you try to create a far future DateTime
+(year >= 5000) with any time zone besides floating or UTC. This can be very
+slow if the time zone has future DST transitions that need to be
+calculated. If the date is sufficiently far in the future this can be
+I<really> slow (minutes).
+
+All warnings from DateTime use the C<DateTime> category and can be suppressed
+with:
+
+    no warnings 'DateTime';
+
+This warning may be removed in the future if L<DateTime::TimeZone> is made
+much faster.
 
 =head3 DateTime->new( ... )
 

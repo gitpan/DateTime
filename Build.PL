@@ -19,7 +19,7 @@ my %module_build_args = (
     "Dave Rolsky <autarch\@urth.org>"
   ],
   "dist_name" => "DateTime",
-  "dist_version" => "1.08",
+  "dist_version" => "1.09",
   "license" => "artistic_2",
   "module_name" => "DateTime",
   "recommends" => {},
@@ -40,13 +40,15 @@ my %module_build_args = (
     "perl" => "5.008001",
     "strict" => 0,
     "vars" => 0,
-    "warnings" => 0
+    "warnings" => 0,
+    "warnings::register" => 0
   },
   "script_files" => [],
   "test_requires" => {
     "Storable" => 0,
     "Test::Fatal" => 0,
     "Test::More" => "0.88",
+    "Test::Warnings" => "0.005",
     "utf8" => 0
   }
 );
@@ -57,6 +59,7 @@ my %fallback_build_requires = (
   "Storable" => 0,
   "Test::Fatal" => 0,
   "Test::More" => "0.88",
+  "Test::Warnings" => "0.005",
   "utf8" => 0
 );
 

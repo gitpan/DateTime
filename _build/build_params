@@ -26,7 +26,6 @@ do{ my $x = [
     'prereq_action_types' => [
       'requires',
       'build_requires',
-      'test_requires',
       'conflicts',
       'recommends'
     ],
@@ -35,7 +34,7 @@ do{ my $x = [
     'xs_files' => undef,
     'destdir' => undef,
     'metafile' => 'META.yml',
-    'mb_version' => '0.4205',
+    'mb_version' => '0.4003',
     'use_tap_harness' => 0,
     'test_file_exts' => [
       '.t'
@@ -55,8 +54,6 @@ do{ my $x = [
     'bundle_inc' => [],
     'use_rcfile' => 1,
     'configure_requires' => {},
-    'pureperl_only' => 0,
-    'extra_manify_args' => undef,
     'test_files' => undef,
     'dist_abstract' => 'Whatever',
     'create_readme' => undef,
@@ -88,7 +85,6 @@ do{ my $x = [
     'orig_dir' => '/home/autarch/projects/DateTime.pm',
     'include_dirs' => [],
     'installdirs' => 'site',
-    'test_requires' => {},
     'mymetafile' => 'MYMETA.yml',
     'create_makefile_pl' => undef,
     'magic_number' => undef,
@@ -115,7 +111,6 @@ do{ my $x = [
     'build_requires' => {
       'ExtUtils::CBuilder' => 0
     },
-    'allow_pureperl' => 0,
     'config' => undef,
     'blib' => 'blib',
     'prefix' => undef

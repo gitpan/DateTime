@@ -8,21 +8,9 @@ BEGIN {
 
 use strict;
 use warnings;
+use Test::More;
 
-# this test was generated with Dist::Zilla::Plugin::NoTabsTests 0.06
+eval 'use Test::NoTabs';
+plan skip_all => 'Test::NoTabs required' if $@;
 
-use Test::More 0.88;
-use Test::NoTabs;
-
-my @files = (
-    'lib/DateTime.pm',
-    'lib/DateTime/Duration.pm',
-    'lib/DateTime/Helpers.pm',
-    'lib/DateTime/Infinite.pm',
-    'lib/DateTime/LeapSecond.pm',
-    'lib/DateTimePP.pm',
-    'lib/DateTimePPExtra.pm'
-);
-
-notabs_ok($_) foreach @files;
-done_testing;
+all_perl_files_ok();
