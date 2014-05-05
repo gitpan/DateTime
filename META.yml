@@ -39,5 +39,5 @@ requires:
 resources:
   bugtracker: http://rt.cpan.org/NoAuth/Bugs.html?Dist=DateTime
   repository: git://git.urth.org/DateTime.pm.git
-version: 1.09
+version: 1.10
 x_authority: cpan:DROLSKY

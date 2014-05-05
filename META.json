@@ -26,6 +26,8 @@
       },
       "develop" : {
          "requires" : {
+            "Test::More" : "0",
+            "Test::NoTabs" : "0",
             "Test::Pod" : "1.41"
          }
       },
@@ -72,7 +74,7 @@
          "web" : "http://git.urth.org/DateTime.pm.git"
       }
    },
-   "version" : "1.09",
+   "version" : "1.10",
    "x_authority" : "cpan:DROLSKY"
 }
 

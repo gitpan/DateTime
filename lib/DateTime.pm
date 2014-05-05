@@ -1,5 +1,5 @@
 package DateTime;
-$DateTime::VERSION = '1.09';
+$DateTime::VERSION = '1.10';
 use 5.008001;
 
 use strict;
@@ -2175,7 +2175,7 @@ DateTime - A date and time object
 
 =head1 VERSION
 
-version 1.09
+version 1.10
 
 =head1 SYNOPSIS
 
