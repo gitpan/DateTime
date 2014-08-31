@@ -466,5 +466,17 @@ use DateTime;
 
 }
 
+{
+    my $dt = DateTime->new(
+        year      => 2014,
+        month     => 7,
+        day       => 3,
+        time_zone => 'floating',
+    );
+
+    $dt->subtract( days => 2 );
+    is( $dt->date, '2014-07-01', 'subtracting 2 days from a floating datetime' );
+}
+
 done_testing();
 

@@ -3,23 +3,23 @@
 use strict;
 use warnings;
 
-use Module::Build 0.3601;
+use Module::Build 0.28;
 
 
 my %module_build_args = (
   "build_requires" => {
-    "Module::Build" => "0.3601"
+    "Module::Build" => "0.28"
   },
   "c_source" => "c",
   "configure_requires" => {
-    "Module::Build" => "0.3601"
+    "Module::Build" => "0.28"
   },
   "dist_abstract" => "A date and time object",
   "dist_author" => [
     "Dave Rolsky <autarch\@urth.org>"
   ],
   "dist_name" => "DateTime",
-  "dist_version" => "1.10",
+  "dist_version" => "1.11",
   "license" => "artistic_2",
   "module_name" => "DateTime",
   "recommends" => {},
@@ -27,7 +27,7 @@ my %module_build_args = (
   "requires" => {
     "Carp" => 0,
     "DateTime::Locale" => "0.41",
-    "DateTime::TimeZone" => "1.09",
+    "DateTime::TimeZone" => "1.74",
     "POSIX" => 0,
     "Params::Validate" => "0.76",
     "Scalar::Util" => 0,
@@ -45,6 +45,8 @@ my %module_build_args = (
   },
   "script_files" => [],
   "test_requires" => {
+    "ExtUtils::MakeMaker" => 0,
+    "File::Spec" => 0,
     "Storable" => 0,
     "Test::Fatal" => 0,
     "Test::More" => "0.88",
@@ -55,7 +57,9 @@ my %module_build_args = (
 
 
 my %fallback_build_requires = (
-  "Module::Build" => "0.3601",
+  "ExtUtils::MakeMaker" => 0,
+  "File::Spec" => 0,
+  "Module::Build" => "0.28",
   "Storable" => 0,
   "Test::Fatal" => 0,
   "Test::More" => "0.88",
