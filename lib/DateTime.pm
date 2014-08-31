@@ -1,6 +1,6 @@
 package DateTime;
-# git description: v1.10-7-g3289bf2
-$DateTime::VERSION = '1.11';
+# git description: v1.11-4-g98156fc
+$DateTime::VERSION = '1.12';
 
 use 5.008001;
 
@@ -2165,7 +2165,7 @@ sub time_zone { $_[0]->{tz} }
 
 1;
 
-# ABSTRACT: A date and time object
+# ABSTRACT: A date and time object for Perl
 
 __END__
 
@@ -2175,11 +2175,11 @@ __END__
 
 =head1 NAME
 
-DateTime - A date and time object
+DateTime - A date and time object for Perl
 
 =head1 VERSION
 
-version 1.11
+version 1.12
 
 =head1 SYNOPSIS
 

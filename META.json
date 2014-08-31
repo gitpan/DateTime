@@ -1,5 +1,5 @@
 {
-   "abstract" : "A date and time object",
+   "abstract" : "A date and time object for Perl",
    "author" : [
       "Dave Rolsky <autarch@urth.org>"
    ],
@@ -74,31 +74,31 @@
    "provides" : {
       "DateTime" : {
          "file" : "lib/DateTime.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       },
       "DateTime::Duration" : {
          "file" : "lib/DateTime/Duration.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       },
       "DateTime::Helpers" : {
          "file" : "lib/DateTime/Helpers.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       },
       "DateTime::Infinite" : {
          "file" : "lib/DateTime/Infinite.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       },
       "DateTime::Infinite::Future" : {
          "file" : "lib/DateTime/Infinite.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       },
       "DateTime::Infinite::Past" : {
          "file" : "lib/DateTime/Infinite.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       },
       "DateTime::LeapSecond" : {
          "file" : "lib/DateTime/LeapSecond.pm",
-         "version" : "1.11"
+         "version" : "1.12"
       }
    },
    "release_status" : "stable",
@@ -110,11 +110,11 @@
       "homepage" : "http://metacpan.org/release/DateTime",
       "repository" : {
          "type" : "git",
-         "url" : "git://github.com/autarch/DateTime.git",
-         "web" : "https://github.com/autarch/DateTime"
+         "url" : "git://github.com/autarch/DateTime.pm.git",
+         "web" : "https://github.com/autarch/DateTime.pm"
       }
    },
-   "version" : "1.11",
+   "version" : "1.12",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.016003"
@@ -533,7 +533,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : null,
                   "signed" : 0,
-                  "tag" : "v1.11",
+                  "tag" : "v1.12",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v",
                   "time_zone" : "local"

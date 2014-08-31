@@ -14,12 +14,12 @@ my %module_build_args = (
   "configure_requires" => {
     "Module::Build" => "0.28"
   },
-  "dist_abstract" => "A date and time object",
+  "dist_abstract" => "A date and time object for Perl",
   "dist_author" => [
     "Dave Rolsky <autarch\@urth.org>"
   ],
   "dist_name" => "DateTime",
-  "dist_version" => "1.11",
+  "dist_version" => "1.12",
   "license" => "artistic_2",
   "module_name" => "DateTime",
   "recommends" => {},
