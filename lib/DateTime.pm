@@ -1,7 +1,7 @@
 package DateTime;
-# git description: v1.11-4-g98156fc
-$DateTime::VERSION = '1.12';
+# git description: v1.12-23-g20f1543
 
+$DateTime::VERSION = '1.13';
 use 5.008001;
 
 use strict;
@@ -2171,15 +2171,13 @@ __END__
 
 =pod
 
-=encoding UTF-8
-
 =head1 NAME
 
 DateTime - A date and time object for Perl
 
 =head1 VERSION
 
-version 1.12
+version 1.13
 
 =head1 SYNOPSIS
 
@@ -2276,6 +2274,8 @@ from how dates are often written using "BCE/CE" or "BC/AD".
 
 For infinite datetimes, please see the
 L<DateTime::Infinite|DateTime::Infinite> module.
+
+=encoding UTF-8
 
 =head1 USAGE
 
@@ -2925,7 +2925,7 @@ and the result may end up rounded to an arbitrary degree depending on your
 platform.
 
     my $dt = DateTime->new( year => 2012, nanosecond => 4 );
-    say $dt->hires_repoch();
+    say $dt->hires_epoch();
 
 On my system, this simply prints C<1325376000> because adding C<0.000000004>
 to C<1325376000> returns C<1325376000>.
@@ -3166,6 +3166,9 @@ the difference between the two dates in seconds and nanoseconds. This
 is the only way to accurately measure the absolute amount of time
 between two datetimes, since units larger than a second do not
 represent a fixed number of seconds.
+
+Note that because of leap seconds, this may not return the same result as
+doing this math based on the value returned by C<< $dt->epoch() >>.
 
 =head2 Class Methods
 
@@ -4308,17 +4311,73 @@ L<http://www.urth.org/~autarch/fs-donation.html>
 
 =head1 SEE ALSO
 
-datetime@perl.org mailing list
+L<A Date with
+Perl|http://www.houseabsolute.com/presentations/a-date-with-perl/> - a talk
+I've given at a few YAPCs.
 
-http://datetime.perl.org/
+L<datetime@perl.org mailing list|http://lists.perl.org/list/datetime.html>
+
+L<http://datetime.perl.org/>
 
 =head1 AUTHOR
 
 Dave Rolsky <autarch@urth.org>
 
+=head1 CONTRIBUTORS
+
+=for stopwords Ben Bennett Christian Hansen Daisuke Maki David E. Wheeler Doug Bell Flávio Soibelmann Glock Iain Truskett Joshua Hoblitt Ricardo Signes Richard Bowen Ron Hill
+
+=over 4
+
+=item *
+
+Ben Bennett <fiji@limey.net>
+
+=item *
+
+Christian Hansen <chansen@cpan.org>
+
+=item *
+
+Daisuke Maki <dmaki@cpan.org>
+
+=item *
+
+David E. Wheeler <david@justatheory.com>
+
+=item *
+
+Doug Bell <madcityzen@gmail.com>
+
+=item *
+
+Flávio Soibelmann Glock <fglock@gmail.com>
+
+=item *
+
+Iain Truskett <deceased>
+
+=item *
+
+Joshua Hoblitt <jhoblitt@cpan.org>
+
+=item *
+
+Ricardo Signes <rjbs@cpan.org>
+
+=item *
+
+Richard Bowen <bowen@cpan.org>
+
+=item *
+
+Ron Hill <rkhill@cpan.org>
+
+=back
+
 =head1 COPYRIGHT AND LICENSE
 
-This software is Copyright (c) 2014 by Dave Rolsky.
+This software is Copyright (c) 2015 by Dave Rolsky.
 
 This is free software, licensed under:
 
