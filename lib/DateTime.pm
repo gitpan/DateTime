@@ -1,7 +1,7 @@
 package DateTime;
-# git description: v1.12-23-g20f1543
+# git description: v1.13-2-g609172f
 
-$DateTime::VERSION = '1.13';
+$DateTime::VERSION = '1.14';
 use 5.008001;
 
 use strict;
@@ -2177,7 +2177,7 @@ DateTime - A date and time object for Perl
 
 =head1 VERSION
 
-version 1.13
+version 1.14
 
 =head1 SYNOPSIS
 

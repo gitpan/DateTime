@@ -23,25 +23,25 @@ name: DateTime
 provides:
   DateTime:
     file: lib/DateTime.pm
-    version: '1.13'
+    version: '1.14'
   DateTime::Duration:
     file: lib/DateTime/Duration.pm
-    version: '1.13'
+    version: '1.14'
   DateTime::Helpers:
     file: lib/DateTime/Helpers.pm
-    version: '1.13'
+    version: '1.14'
   DateTime::Infinite:
     file: lib/DateTime/Infinite.pm
-    version: '1.13'
+    version: '1.14'
   DateTime::Infinite::Future:
     file: lib/DateTime/Infinite.pm
-    version: '1.13'
+    version: '1.14'
   DateTime::Infinite::Past:
     file: lib/DateTime/Infinite.pm
-    version: '1.13'
+    version: '1.14'
   DateTime::LeapSecond:
     file: lib/DateTime/LeapSecond.pm
-    version: '1.13'
+    version: '1.14'
 requires:
   Carp: '0'
   DateTime::Locale: '0.41'
@@ -64,7 +64,7 @@ resources:
   bugtracker: http://rt.cpan.org/Public/Dist/Display.html?Name=DateTime
   homepage: http://metacpan.org/release/DateTime
   repository: git://github.com/autarch/DateTime.pm.git
-version: '1.13'
+version: '1.14'
 x_Dist_Zilla:
   perl:
     version: '5.016003'
@@ -418,7 +418,7 @@ x_Dist_Zilla:
         Dist::Zilla::Plugin::Git::Tag:
           branch: ~
           signed: 0
-          tag: v1.13
+          tag: v1.14
           tag_format: v%v
           tag_message: v%v
           time_zone: local
