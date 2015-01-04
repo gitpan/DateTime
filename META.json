@@ -75,31 +75,31 @@
    "provides" : {
       "DateTime" : {
          "file" : "lib/DateTime.pm",
-         "version" : "1.15"
+         "version" : "1.16"
       },
       "DateTime::Duration" : {
          "file" : "lib/DateTime/Duration.pm",
-         "version" : "1.15"
+         "version" : "1.16"
       },
       "DateTime::Helpers" : {
          "file" : "lib/DateTime/Helpers.pm",
-         "version" : "1.15"
+         "version" : "1.16"
       },
       "DateTime::Infinite" : {
          "file" : "lib/DateTime/Infinite.pm",
-         "version" : "1.15"
+         "version" : "1.16"
       },
       "DateTime::Infinite::Future" : {
          "file" : "lib/DateTime/Infinite.pm",
-         "version" : "1.15"
+         "version" : "1.16"
       },
       "DateTime::Infinite::Past" : {
          "file" : "lib/DateTime/Infinite.pm",
-         "version" : "1.15"
+         "version" : "1.16"
       },
       "DateTime::LeapSecond" : {
          "file" : "lib/DateTime/LeapSecond.pm",
-         "version" : "1.15"
+         "version" : "1.16"
       }
    },
    "release_status" : "testing",
@@ -115,7 +115,7 @@
          "web" : "https://github.com/autarch/DateTime.pm"
       }
    },
-   "version" : "1.15",
+   "version" : "1.16",
    "x_Dist_Zilla" : {
       "perl" : {
          "version" : "5.016003"
@@ -569,7 +569,7 @@
                "Dist::Zilla::Plugin::Git::Tag" : {
                   "branch" : null,
                   "signed" : 0,
-                  "tag" : "v1.15",
+                  "tag" : "v1.16",
                   "tag_format" : "v%v",
                   "tag_message" : "v%v",
                   "time_zone" : "local"

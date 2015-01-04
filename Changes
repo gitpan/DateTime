@@ -1,3 +1,8 @@
+1.16   2015-01-04 (TRIAL RELEASE)
+
+- Test fix for systems with where IVs are 4 bytes long.
+
+
 1.15   2015-01-03 (TRIAL RELEASE)
 
 - Trying this again ... Experimental fix for adding very large numbers of
@@ -14,7 +19,7 @@
   install.
 
 
-1.13 2015-01-03
+1.13   2015-01-03
 
 * This release was deleted from CPAN.
 

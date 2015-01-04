@@ -9,8 +9,8 @@ use DateTime;
 # 2 tests are performed for each date (on _ymd2rd and _rd2ymd)
 # dates are specified as [rd,year,month,day]
 for (    # min and max supported days (for 32-bit system)
-    [ -2**31,    -5879610, 6, 22 ],
-    [ 2**31 - 1, 5879611,  7, 11 ],
+    [ -( 2**28 ), -734951, 9, 7 ],
+    [ 2**28,      734952,  4, 25 ],
 
     # some miscellaneous dates (these are actually epoch dates for
     # various calendars from Calendrical Calculations (1st ed) Table
@@ -55,7 +55,7 @@ for (
 
 # test first and last day of each month from Jan -4800..Dec 4800
 # this test bails after the first failure with a not ok.
-# if it comlpetes successfully, only one ok is issued.
+# if it completes successfully, only one ok is issued.
 
 my @mlen = ( 0, 31, 0, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 );
 my ( $dno, $y, $m, $dno2, $y2, $m2, $d2, $mlen ) = ( -1753530, -4800, 1 );
