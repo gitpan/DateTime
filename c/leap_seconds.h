@@ -60,8 +60,10 @@
       ls = 23;                      \
     } else if (utc_rd >= 733408 && utc_rd < 734685) {  \
       ls = 24;                      \
+    } else if (utc_rd >= 734685 && utc_rd < 735780) {  \
+      ls = 25;                      \
     } else {                         \
-      ls = 25;       \
+      ls = 26;       \
     }                              \
   }                                \
 }
@@ -96,6 +98,7 @@
       case 732311: es = 1; break;            \
       case 733407: es = 1; break;            \
       case 734684: es = 1; break;            \
+      case 735779: es = 1; break;            \
     }                                  \
   }                                    \
 }
@@ -130,6 +133,7 @@
       case 732311: dl = 86400 + 1; break;    \
       case 733407: dl = 86400 + 1; break;    \
       case 734684: dl = 86400 + 1; break;    \
+      case 735779: dl = 86400 + 1; break;    \
     }                                  \
   }                                    \
 }
