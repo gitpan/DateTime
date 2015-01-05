@@ -1,7 +1,7 @@
 package DateTime;
-# git description: v1.15-7-gde29329
+# git description: v1.16-7-g3bd08ac
 
-$DateTime::VERSION = '1.16'; # TRIAL
+$DateTime::VERSION = '1.17';
 use 5.008001;
 
 use strict;
@@ -2177,7 +2177,7 @@ DateTime - A date and time object for Perl
 
 =head1 VERSION
 
-version 1.16
+version 1.17
 
 =head1 SYNOPSIS
 
@@ -2310,11 +2310,9 @@ or C<epoch()>, will never die.
 
 =head2 Locales
 
-All the object methods which return names or abbreviations return data
-based on a locale. This is done by setting the locale when
-constructing a DateTime object. There is also a C<DefaultLocale()>
-class method which may be used to set the default locale for all
-DateTime objects created. If this is not set, then "en_US" is used.
+All the object methods which return names or abbreviations return data based
+on a locale. This is done by setting the locale when constructing a DateTime
+object. If this is not set, then "en_US" is used.
 
 =head2 Floating DateTimes
 
@@ -2337,8 +2335,8 @@ datetimes.
 
 =head2 Math
 
-If you are going to be using doing date math, please read the section L<How
-DateTime Math Works>.
+If you are going to be doing date math, please read the section L<How DateTime
+Math Works>.
 
 =head2 Determining the Local Time Zone Can Be Slow
 
@@ -2363,6 +2361,16 @@ very far in the future (thousands of years). The current
 implementation of C<DateTime::TimeZone> will use a huge amount of
 memory calculating all the DST changes from now until the future
 date. Use UTC or the floating time zone and you will be safe.
+
+=head2 Upper and Lower Bounds
+
+Internally, dates are represented the number of days before or after
+0001-01-01. This is stored as an integer, meaning that the upper and lower
+bounds are based on your Perl's integer size (C<$Config{ivsize}>).
+
+The limit on 32-bit systems is around 2^29 days, which gets you to year
+(+/-)1,469,903. On a 64-bit system you get 2^62 days,
+(+/-)12,626,367,463,883,278 (12.626 quadrillion).
 
 =head1 METHODS
 
